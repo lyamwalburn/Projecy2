@@ -16,6 +16,8 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>(); 
 builder.Services.AddScoped<ISellerService,  SellerService>();
 builder.Services.AddScoped<ISellerRepository, SellerRepository>();
+builder.Services.AddScoped<IPropertyService, PropertyService>();
+builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers();

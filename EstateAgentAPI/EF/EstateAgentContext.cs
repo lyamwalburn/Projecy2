@@ -55,6 +55,22 @@ namespace EstateAgentAPI.EF
                   .HasColumnName("PHONE");
             });
 
+            modelBuilder.Entity<Property>(entity =>
+            {
+                entity.ToTable("property");
+                entity.Property(e => e.Id).HasColumnName("PROPERTY_ID");
+                entity.Property(e => e.Address).HasColumnName("ADDRESS");
+                entity.Property(e => e.PostCode).HasColumnName("POSTCODE");
+                entity.Property(e => e.Type).HasColumnName("TYPE");
+                entity.Property(e => e.NumberOfBedrooms).HasColumnName("NUMBER_OF_BEDROOMS");
+                entity.Property(e => e.NumberOfBathrooms).HasColumnName("NUMBER_OF_BATHROOMS");
+                entity.Property(e => e.Garden).HasColumnName("GARDEN");
+                entity.Property(e => e.Price).HasColumnName("PRICE");
+                entity.Property(e => e.SellerId).HasColumnName("SELLER_ID");
+                entity.Property(e => e.BuyerId).HasColumnName("BUYER_ID");
+
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 
