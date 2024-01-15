@@ -1,20 +1,21 @@
 using EstateAgentAPI.Buisness.Services;
+using EstateAgentAPI.Business.Services;
 using EstateAgentAPI.EF;
 using EstateAgentAPI.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 builder.Services.AddScoped<IBuyerService, BuyerService>();
 builder.Services.AddScoped<IBuyerRepository, BuyerRepository>();
 builder.Services.AddScoped<IBookingService, BookingService>();  
-builder.Services.AddScoped<IBookingRepository, BookingRepository>();   
+builder.Services.AddScoped<IBookingRepository, BookingRepository>(); 
+builder.Services.AddScoped<ISellerService,  SellerService>();
+builder.Services.AddScoped<ISellerRepository, SellerRepository>();
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers();

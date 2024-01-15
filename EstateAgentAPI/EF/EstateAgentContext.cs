@@ -32,8 +32,32 @@ namespace EstateAgentAPI.EF
                 entity.Property(e => e.Phone).HasColumnName("PHONE");
             });
 
+            modelBuilder.Entity<Seller>(entity =>
+            {
+                entity.ToTable("seller");
+
+                entity.Property(e => e.Id).HasColumnName("SELLER_ID");
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(255)
+                    .HasColumnName("FIRST_NAME");
+                entity.Property(e => e.Surname)
+                   .HasMaxLength(255)
+                   .HasColumnName("SURNAME");
+                entity.Property(e => e.Address)
+                   .HasMaxLength(255)
+                   .HasColumnName("ADDRESS");
+                entity.Property(e => e.Postcode)
+                   .HasMaxLength(255)
+                   .HasColumnName("POSTCODE");
+                entity.Property(e => e.Phone)
+                  .HasMaxLength(20)
+                  .HasColumnName("PHONE");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
+
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
