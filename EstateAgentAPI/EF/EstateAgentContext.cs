@@ -13,6 +13,10 @@ namespace EstateAgentAPI.EF
         }
 
         public virtual DbSet<Buyer> Buyers { get; set; } = null;
+        public virtual DbSet<Seller> Sellers { get; set; } = null;
+        public virtual DbSet<Property> Properties { get; set; } = null;
+        public virtual DbSet<Booking> Bookings { get; set; } = null;
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -69,6 +73,15 @@ namespace EstateAgentAPI.EF
                 entity.Property(e => e.SellerId).HasColumnName("SELLER_ID");
                 entity.Property(e => e.BuyerId).HasColumnName("BUYER_ID");
 
+            });
+
+            modelBuilder.Entity<Booking>(entity =>
+            {
+                entity.ToTable("booking");
+                entity.Property(e => e.Id).HasColumnName("BOOKING_ID");
+                entity.Property(e => e.BuyerId).HasColumnName("BUYER_ID");
+                entity.Property(e => e.PropertyId).HasColumnName("PROPERTY_ID");
+                entity.Property(e => e.Time).HasColumnName("TIME");
             });
 
             OnModelCreatingPartial(modelBuilder);

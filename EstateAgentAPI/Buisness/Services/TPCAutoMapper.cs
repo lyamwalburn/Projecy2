@@ -14,6 +14,8 @@ namespace EstateAgentAPI.Buisness.Services
             CreateMap<SellerDTO,Seller>();
             CreateMap<Property, PropertyDTO>();
             CreateMap<PropertyDTO, Property>();
+            CreateMap<Booking, BookingDTO>();
+            CreateMap<BookingDTO, Booking>();
         }
     }
 }

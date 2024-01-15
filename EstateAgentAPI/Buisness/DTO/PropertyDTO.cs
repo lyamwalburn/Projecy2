@@ -15,11 +15,11 @@ namespace EstateAgentAPI.Buisness.DTO
         public string? Type { get; set; }
         public int? NumberOfBedrooms { get; set; }
         public int? NumerOfBathrooms { get; set; }
-        public int? Garden { get; set; }
-        public double? Price { get; set; }
+        public bool? Garden { get; set; }
+        public decimal? Price { get; set; }
         public string? Status { get; set; }
-        public string? SellerID { get; set; }
-        public string? BuyerID { get; set; }
+        public int? SellerID { get; set; }
+        public int? BuyerID { get; set; }
 
         public bool Equals(PropertyDTO? other)
         {
