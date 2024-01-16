@@ -5,8 +5,9 @@ using EstateAgentAPI.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication;
 
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
-
+var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -26,6 +27,15 @@ builder.Services.AddDbContext<EstateAgentContext>(options =>
                                 options.UseSqlServer(
                                     builder.Configuration.GetConnectionString("Estates")));
 
+//CORS
+builder.Services.AddCors(options =>
+        options.AddPolicy(name: myAllowSpecificOrigins,
+                          policy =>
+                          {
+                              policy.WithOrigins("http://localhost:3000/");
+                          })
+);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -42,7 +52,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors(myAllowSpecificOrigins);
 app.MapControllers();
 
 app.Run();
