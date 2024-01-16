@@ -29,7 +29,7 @@ namespace EstateAgentAPI.Business.DTO
                 Id = this.Id,
                // SellerId = this.SellerId,
                 FirstName = this.FirstName,
-                SurName = this.SurName,
+                Surname = this.Surname,
                 Address = this.Address,
                 PostCode = this.PostCode,
                 Phone = this.Phone
