@@ -61,8 +61,8 @@ namespace EstateAgentUnitTests
                 Garden = true,
                 Price = 1000,
                 Status = "SOLD",
-                BuyerID = 4,
-                SellerID = 11
+                BuyerId = 4,
+                SellerId = 11
             };
         }
 
@@ -86,8 +86,8 @@ namespace EstateAgentUnitTests
                     Garden = true,
                     Price = 1000,
                     Status = "SOLD",
-                    BuyerID = 4,
-                    SellerID = 11
+                    BuyerId = 4,
+                    SellerId = 11
                 };
 
                 _controller.AddProperty(propertyDTO);
@@ -121,8 +121,8 @@ namespace EstateAgentUnitTests
                 Assert.Equal(true, propertyFromDb.Garden);
                 Assert.Equal(1000, propertyFromDb.Price);
                 Assert.Equal("SOLD", propertyFromDb.Status);
-                Assert.Equal(4, propertyFromDb.BuyerID);
-                Assert.Equal(11, propertyFromDb.SellerID);
+                Assert.Equal(4, propertyFromDb.BuyerId);
+                Assert.Equal(11, propertyFromDb.SellerId);
             }
         }
 
@@ -148,8 +148,8 @@ namespace EstateAgentUnitTests
                     Garden = true,
                     Price = 1000,
                     Status = "SOLD",
-                    BuyerID = 4,
-                    SellerID = 11
+                    BuyerId = 4,
+                    SellerId = 11
                 };
                 _controller.AddProperty(secondProperty);
 
@@ -164,8 +164,8 @@ namespace EstateAgentUnitTests
                 Assert.True(propertyFromId.Value.Garden);
                 Assert.Equal(1000, propertyFromId.Value.Price);
                 Assert.Equal("SOLD", propertyFromId.Value.Status);
-                Assert.Equal(4, propertyFromId.Value.BuyerID);
-                Assert.Equal(11, propertyFromId.Value.SellerID);
+                Assert.Equal(4, propertyFromId.Value.BuyerId);
+                Assert.Equal(11, propertyFromId.Value.SellerId);
             }
 
         }
@@ -192,8 +192,8 @@ namespace EstateAgentUnitTests
                     Garden = false,
                     Price = 1500,
                     Status = "SOLD",
-                    BuyerID = 4,
-                    SellerID = 11
+                    BuyerId = 4,
+                    SellerId = 11
                 };
 
                 _controller.UpdateProperty(propertyToUpdate);
@@ -275,8 +275,8 @@ namespace EstateAgentUnitTests
                     Garden = false,
                     Price = 1500,
                     Status = "SOLD",
-                    BuyerID = 4,
-                    SellerID = 11
+                    BuyerId = 4,
+                    SellerId = 11
                 };
 
                 var actionResult = _controller.UpdateProperty(propertyToUpdate);
