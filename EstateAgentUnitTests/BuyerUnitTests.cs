@@ -15,13 +15,24 @@ namespace EstateAgentUnitTests
     public class BuyerUnitTests
     {
         private Mapper _mapper;
+        private IBuyerRepository _repo;
+        private BuyerService _service;
+        private EstateAgentContext _context;
+        private BuyerController _controller;
 
         public BuyerUnitTests()
         {
             TPCAutoMapper myProfile = new TPCAutoMapper();
             MapperConfiguration configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
             _mapper = new Mapper(configuration);
+        }
 
+        private void Setup(IServiceScope scope)
+        {
+            _repo= scope.ServiceProvider.GetService<IBuyerRepository>();
+            _service = new BuyerService(_repo, _mapper);
+            _context = scope.ServiceProvider.GetService<EstateAgentContext>();
+            _controller = new BuyerController(_service);
         }
 
         private IServiceProvider GetBuyerServiceProivder()
@@ -56,12 +67,9 @@ namespace EstateAgentUnitTests
             var services = GetBuyerServiceProivder();
             using (var scope = services.CreateScope())
             {
-                var repo = scope.ServiceProvider.GetService<IBuyerRepository>();
-                var service = new BuyerService(repo, _mapper);
-                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
-                var controller = new BuyerController(service);
+                Setup(scope);
                 //Clear database
-                context.Database.EnsureDeleted();
+                _context.Database.EnsureDeleted();
 
                 var buyerDTO = new BuyerDTO
                 {
@@ -72,8 +80,8 @@ namespace EstateAgentUnitTests
                     Phone = "123456789"
                 };
 
-                controller.AddBuyer(buyerDTO);
-                var buyer = context.Buyers.Single();
+                _controller.AddBuyer(buyerDTO);
+                var buyer = _context.Buyers.Single();
 
                 Assert.Equal(1, buyer.Id);
                 Assert.Equal("testname", buyer.FirstName);
@@ -87,16 +95,13 @@ namespace EstateAgentUnitTests
             var services = GetBuyerServiceProivder();
             using (var scope = services.CreateScope())
             {
-                var repo = scope.ServiceProvider.GetService<IBuyerRepository>();
-                var service = new BuyerService(repo, _mapper);
-                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
-                var controller = new BuyerController(service);
+                Setup(scope);
                 //Clear database
-                context.Database.EnsureDeleted();
+                _context.Database.EnsureDeleted();
                 //Add buyer to db
-                controller.AddBuyer(GetMockBuyer());
+                _controller.AddBuyer(GetMockBuyer());
 
-                var buyerFromDb = controller.Index().FirstOrDefault();
+                var buyerFromDb = _controller.Index().FirstOrDefault();
                 
                 Assert.Equal(1, buyerFromDb.Id);
                 Assert.Equal("Smith", buyerFromDb.Surname);
@@ -113,13 +118,10 @@ namespace EstateAgentUnitTests
             var services = GetBuyerServiceProivder();
             using (var scope = services.CreateScope())
             {
-                var repo = scope.ServiceProvider.GetService<IBuyerRepository>();
-                var service = new BuyerService(repo, _mapper);
-                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
-                var controller = new BuyerController(service);
+                Setup(scope);
                 //Clear database
-                context.Database.EnsureDeleted();
-                controller.AddBuyer(GetMockBuyer());
+                _context.Database.EnsureDeleted();
+                _controller.AddBuyer(GetMockBuyer());
 
                 var buyerToUpdate = new BuyerDTO
                 {
@@ -131,9 +133,9 @@ namespace EstateAgentUnitTests
                     Phone = "0987654321"
                 };
 
-                controller.UpdateBuyer(buyerToUpdate);
+                _controller.UpdateBuyer(buyerToUpdate);
 
-                var buyerFromDb = repo.FindById(1);
+                var buyerFromDb = _repo.FindById(1);
 
                 Assert.Equal("updated firstname", buyerFromDb.FirstName);
                 Assert.Equal("Got Married", buyerFromDb.Surname);
@@ -150,19 +152,16 @@ namespace EstateAgentUnitTests
             var services = GetBuyerServiceProivder();
             using (var scope = services.CreateScope())
             {
-                var repo = scope.ServiceProvider.GetService<IBuyerRepository>();
-                var service = new BuyerService(repo, _mapper);
-                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
-                var controller = new BuyerController(service);
+                Setup(scope);
                 //Clear database
-                context.Database.EnsureDeleted();
-                controller.AddBuyer(GetMockBuyer());
+                _context.Database.EnsureDeleted();
+                _controller.AddBuyer(GetMockBuyer());
 
                 var expectedRecordsCount = 0;
 
-                controller.DeleteBuyer(1);
+                _controller.DeleteBuyer(1);
 
-                var buyersFromDb = controller.Index();
+                var buyersFromDb = _controller.Index();
 
                 Assert.Equal(expectedRecordsCount, buyersFromDb.Count());
             }
@@ -174,13 +173,10 @@ namespace EstateAgentUnitTests
             var services = GetBuyerServiceProivder();
             using (var scope = services.CreateScope())
             {
-                var repo = scope.ServiceProvider.GetService<IBuyerRepository>();
-                var service = new BuyerService(repo, _mapper);
-                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
-                var controller = new BuyerController(service);
+                Setup(scope);
                 //Clear database
-                context.Database.EnsureDeleted();
-                controller.AddBuyer(GetMockBuyer());
+                _context.Database.EnsureDeleted();
+                _controller.AddBuyer(GetMockBuyer());
 
                 var secondBuyer = new BuyerDTO
                 {
@@ -191,9 +187,9 @@ namespace EstateAgentUnitTests
                     Postcode = "TT 45 9",
                     Phone = "0987654321"
                 };
-                controller.AddBuyer(secondBuyer);
+                _controller.AddBuyer(secondBuyer);
 
-                ActionResult<BuyerDTO> buyerFromId = controller.GetById(2);
+                ActionResult<BuyerDTO> buyerFromId = _controller.GetById(2);
 
                 Assert.Equal(2,buyerFromId.Value.Id);
                 Assert.Equal("updated firstname", buyerFromId.Value.FirstName);
