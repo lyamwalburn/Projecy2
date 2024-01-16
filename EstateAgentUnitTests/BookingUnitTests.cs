@@ -36,7 +36,7 @@ namespace EstateAgentUnitTests
         }
 
 
-        private BookingDTO GetMockBooking(int id)
+        private BookingDTO GetMockBookingDTO(int id)
         {
             return new BookingDTO
             {
@@ -59,7 +59,7 @@ namespace EstateAgentUnitTests
                 var controller = new BookingController(service);
 
                 context.Database.EnsureDeleted();            // ensure database is empty
-                controller.AddBooking(GetMockBooking(404));  
+                controller.AddBooking(GetMockBookingDTO(404));  
                 var booking = context.Bookings.Single();     
 
                 Assert.Equal(404, booking.Id);
@@ -81,10 +81,9 @@ namespace EstateAgentUnitTests
                 var context = scope.ServiceProvider.GetService<EstateAgentContext>();
                 var controller = new BookingController(service);
 
-                context.Database.EnsureDeleted();            // ensure database is empty
-                // TestAddBooking() must pass for this one to pass
-                controller.AddBooking(GetMockBooking(1));
-                controller.AddBooking(GetMockBooking(404));
+                context.Database.EnsureDeleted();            
+                controller.AddBooking(GetMockBookingDTO(1));    // TestAddBooking() must pass for this one to pass
+                controller.AddBooking(GetMockBookingDTO(404));
 
                 var bookingsFromDb = controller.Index();
                 var booking1 = bookingsFromDb.First();
@@ -94,6 +93,58 @@ namespace EstateAgentUnitTests
                 Assert.Equal(404, booking2.Id);
             }
         }
+
+
+        [Fact]
+
+        public void TestGetById()
+        {
+            var services = GetBookingServiceProvider();
+            using (var scope = services.CreateScope())
+            {
+                var repo = scope.ServiceProvider.GetService<IBookingRepository>();
+                var service = new BookingService(repo, _mapper);
+                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
+                var controller = new BookingController(service);
+
+                context.Database.EnsureDeleted();       
+                var mockBookingDTO = GetMockBookingDTO(404);
+                controller.AddBooking(mockBookingDTO);     // TestAddBooking() must pass for this one to pass
+
+                BookingDTO booking = controller.GetById(404).Value;
+
+                Assert.True(booking.Equals(mockBookingDTO));
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 }
