@@ -16,7 +16,7 @@ namespace EstateAgentAPI.Business.DTO
 
         public int SellerId { get { return Id; } set { Id = value; }}
         public string? FirstName { get; set; }
-        public string? SurName { get; set; }
+        public string? Surname { get; set; }
         public string? Address { get; set; }
         public string? PostCode { get; set; }
         public string? Phone { get; set; }
