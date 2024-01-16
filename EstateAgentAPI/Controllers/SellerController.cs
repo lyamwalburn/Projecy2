@@ -46,6 +46,7 @@ namespace EstateAgentAPI.Controllers
         public ActionResult<SellerDTO> UpdateSeller(SellerDTO seller)
         {
             seller = _sellerService.Update(seller);
+            if (seller == null) return NotFound();
             return seller;
         }
 
