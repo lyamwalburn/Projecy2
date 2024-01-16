@@ -39,7 +39,7 @@ namespace EstateAgentUnitTests
         {
             ServiceCollection services = new ServiceCollection();
 
-            services.AddDbContext<EstateAgentContext>(options => options.UseInMemoryDatabase("MockDBDataProperty"));
+            services.AddDbContext<EstateAgentContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
             services.AddScoped<IPropertyService, PropertyService>();
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<PropertyController>();
@@ -57,7 +57,7 @@ namespace EstateAgentUnitTests
                 PostCode = "testpostcode",
                 Type = "apartment",
                 NumberOfBedrooms = 1,
-                NumerOfBathrooms = 2,
+                NumberOfBathrooms = 2,
                 Garden = true,
                 Price = 1000,
                 Status = "SOLD",
@@ -82,7 +82,7 @@ namespace EstateAgentUnitTests
                     PostCode = "test1postcode",
                     Type = "apartment",
                     NumberOfBedrooms = 1,
-                    NumerOfBathrooms = 2,
+                    NumberOfBathrooms = 2,
                     Garden = true,
                     Price = 1000,
                     Status = "SOLD",
@@ -117,7 +117,7 @@ namespace EstateAgentUnitTests
                 Assert.Equal("testpostcode", propertyFromDb.PostCode);
                 Assert.Equal("apartment", propertyFromDb.Type);
                 Assert.Equal(1, propertyFromDb.NumberOfBedrooms);
-                //Assert.Equal(2, propertyFromDb.NumerOfBathrooms);
+                Assert.Equal(2, propertyFromDb.NumberOfBathrooms);
                 Assert.Equal(true, propertyFromDb.Garden);
                 Assert.Equal(1000, propertyFromDb.Price);
                 Assert.Equal("SOLD", propertyFromDb.Status);
@@ -144,7 +144,7 @@ namespace EstateAgentUnitTests
                     PostCode = "testpostcode",
                     Type = "apartment",
                     NumberOfBedrooms = 1,
-                    NumerOfBathrooms = 2,
+                    NumberOfBathrooms = 2,
                     Garden = true,
                     Price = 1000,
                     Status = "SOLD",
@@ -160,7 +160,7 @@ namespace EstateAgentUnitTests
                 Assert.Equal("testpostcode", propertyFromId.Value.PostCode);
                 Assert.Equal("apartment", propertyFromId.Value.Type);
                 Assert.Equal(1, propertyFromId.Value.NumberOfBedrooms);
-                //Assert.Equal(2, propertyFromId.Value.NumerOfBathrooms);
+                Assert.Equal(2, propertyFromId.Value.NumberOfBathrooms);
                 Assert.True(propertyFromId.Value.Garden);
                 Assert.Equal(1000, propertyFromId.Value.Price);
                 Assert.Equal("SOLD", propertyFromId.Value.Status);
@@ -188,7 +188,7 @@ namespace EstateAgentUnitTests
                     PostCode = "updated testpostcode",
                     Type = "detached",
                     NumberOfBedrooms = 2,
-                    NumerOfBathrooms = 1,
+                    NumberOfBathrooms = 1,
                     Garden = false,
                     Price = 1500,
                     Status = "SOLD",
@@ -205,7 +205,7 @@ namespace EstateAgentUnitTests
                 Assert.Equal("updated testpostcode", propertyFromDb.PostCode);
                 Assert.Equal("detached", propertyFromDb.Type);
                 Assert.Equal(2, propertyFromDb.NumberOfBedrooms);
-                //Assert.Equal(1, propertyFromDb.NumberOfBathrooms);
+                Assert.Equal(1, propertyFromDb.NumberOfBathrooms);
                 Assert.False(propertyFromDb.Garden);
                 Assert.Equal(1500, propertyFromDb.Price);
                 Assert.Equal("SOLD", propertyFromDb.Status);
@@ -271,7 +271,7 @@ namespace EstateAgentUnitTests
                     PostCode = "updated testpostcode",
                     Type = "detached",
                     NumberOfBedrooms = 2,
-                    NumerOfBathrooms = 1,
+                    NumberOfBathrooms = 1,
                     Garden = false,
                     Price = 1500,
                     Status = "SOLD",

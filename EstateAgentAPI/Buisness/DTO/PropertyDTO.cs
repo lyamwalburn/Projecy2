@@ -14,7 +14,7 @@ namespace EstateAgentAPI.Buisness.DTO
         public string? PostCode { get; set; }
         public string? Type { get; set; }
         public int? NumberOfBedrooms { get; set; }
-        public int? NumerOfBathrooms { get; set; }
+        public int? NumberOfBathrooms { get; set; }
         public bool? Garden { get; set; }
         public decimal? Price { get; set; }
         public string? Status { get; set; }
@@ -35,7 +35,7 @@ namespace EstateAgentAPI.Buisness.DTO
                 PostCode = this.PostCode,
                 Type = this.Type,
                 NumberOfBedrooms = this.NumberOfBedrooms,
-                NumerOfBathrooms = this.NumerOfBathrooms,
+                NumberOfBathrooms = this.NumberOfBathrooms,
                 Garden = this.Garden,
                 Price = this.Price,
                 Status = this.Status,
