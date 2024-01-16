@@ -120,7 +120,25 @@ namespace EstateAgentUnitTests
                 context.Database.EnsureDeleted();
                 controller.AddBuyer(GetMockBuyer());
 
+                var buyerToUpdate = new BuyerDTO
+                {
+                    Id = 1,
+                    FirstName = "updated firstname",
+                    Surname = "Got Married",
+                    Address = "123 moved road",
+                    Postcode = "TT 45 9",
+                    Phone = "0987654321"
+                };
 
+                controller.UpdateBuyer(buyerToUpdate);
+
+                var buyerFromDb = repo.FindById(1);
+
+                Assert.Equal("updated firstname", buyerFromDb.FirstName);
+                Assert.Equal("Got Married", buyerFromDb.Surname);
+                Assert.Equal("123 moved road", buyerFromDb.Address);
+                Assert.Equal("TT 45 9", buyerFromDb.Postcode);
+                Assert.Equal("0987654321", buyerFromDb.Phone);
             }
             
         }
