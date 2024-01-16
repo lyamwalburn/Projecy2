@@ -5,6 +5,7 @@ using EstateAgentAPI.Controllers;
 using EstateAgentAPI.EF;
 using EstateAgentAPI.Persistence.Models;
 using EstateAgentAPI.Persistence.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
@@ -164,6 +165,42 @@ namespace EstateAgentUnitTests
                 var buyersFromDb = controller.Index();
 
                 Assert.Equal(expectedRecordsCount, buyersFromDb.Count());
+            }
+        }
+
+        [Fact]
+        public void TestGetById()
+        {
+            var services = GetBuyerServiceProivder();
+            using (var scope = services.CreateScope())
+            {
+                var repo = scope.ServiceProvider.GetService<IBuyerRepository>();
+                var service = new BuyerService(repo, _mapper);
+                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
+                var controller = new BuyerController(service);
+                //Clear database
+                context.Database.EnsureDeleted();
+                controller.AddBuyer(GetMockBuyer());
+
+                var secondBuyer = new BuyerDTO
+                {
+                    Id = 2,
+                    FirstName = "updated firstname",
+                    Surname = "Got Married",
+                    Address = "123 moved road",
+                    Postcode = "TT 45 9",
+                    Phone = "0987654321"
+                };
+                controller.AddBuyer(secondBuyer);
+
+                ActionResult<BuyerDTO> buyerFromId = controller.GetById(2);
+
+                Assert.Equal(2,buyerFromId.Value.Id);
+                Assert.Equal("updated firstname", buyerFromId.Value.FirstName);
+                Assert.Equal("Got Married", buyerFromId.Value.Surname);
+                Assert.Equal("123 moved road", buyerFromId.Value.Address);
+                Assert.Equal("TT 45 9", buyerFromId.Value.Postcode);
+                Assert.Equal("0987654321", buyerFromId.Value.Phone);
             }
         }
     }
