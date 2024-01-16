@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using EstateAgentAPI.Buisness.DTO;
-using EstateAgentAPI.Buisness.Services;
+using EstateAgentAPI.Business.DTO;
+using EstateAgentAPI.Business.Services;
 using EstateAgentAPI.Controllers;
 using EstateAgentAPI.EF;
 using EstateAgentAPI.Persistence.Models;

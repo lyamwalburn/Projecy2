@@ -1,7 +1,7 @@
 ﻿using EstateAgentAPI.Persistence.Repositories.Contracts;
 using System.ComponentModel.DataAnnotations;
 
-namespace EstateAgentAPI.Buisness.DTO
+namespace EstateAgentAPI.Business.DTO
 {
     public class BookingDTO : EntityBase, IEquatable<BookingDTO>
     {

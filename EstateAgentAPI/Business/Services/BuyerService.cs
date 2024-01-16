@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using EstateAgentAPI.Buisness.DTO;
+using EstateAgentAPI.Business.DTO;
 using EstateAgentAPI.Persistence.Models;
 using EstateAgentAPI.Persistence.Repositories;
 
-namespace EstateAgentAPI.Buisness.Services
+namespace EstateAgentAPI.Business.Services
 {
     public class BuyerService : IBuyerService
     {
@@ -58,7 +58,7 @@ namespace EstateAgentAPI.Buisness.Services
             b.FirstName = buyerData.FirstName;
             b.Surname = buyerData.Surname;
             b.Address = buyerData.Address;
-            b.Postcode = buyerData.Postcode;
+            b.PostCode = buyerData.PostCode;
             b.Phone = buyerData.Phone;
 
             Buyer buy = _buyersRepository.Update(b);

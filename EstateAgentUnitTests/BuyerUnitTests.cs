@@ -1,6 +1,6 @@
 using AutoMapper;
-using EstateAgentAPI.Buisness.DTO;
-using EstateAgentAPI.Buisness.Services;
+using EstateAgentAPI.Business.DTO;
+using EstateAgentAPI.Business.Services;
 using EstateAgentAPI.Controllers;
 using EstateAgentAPI.EF;
 using EstateAgentAPI.Persistence.Models;
@@ -59,7 +59,7 @@ namespace EstateAgentUnitTests
                 FirstName = "Steve",
                 Surname = "Smith",
                 Address = "1 Main Street",
-                Postcode = "TE 5T",
+                PostCode = "TE 5T",
                 Phone = "12345"
             };
         }
@@ -80,7 +80,7 @@ namespace EstateAgentUnitTests
                     FirstName = "testname",
                     Surname = "surnametest",
                     Address = "123 test street",
-                    Postcode = "TE 5T",
+                    PostCode = "TE 5T",
                     Phone = "123456789"
                 };
 
@@ -111,7 +111,7 @@ namespace EstateAgentUnitTests
                 Assert.Equal("Smith", buyerFromDb.Surname);
                 Assert.Equal("Steve", buyerFromDb.FirstName);
                 Assert.Equal("1 Main Street", buyerFromDb.Address);
-                Assert.Equal("TE 5T", buyerFromDb.Postcode);
+                Assert.Equal("TE 5T", buyerFromDb.PostCode);
                 Assert.Equal("12345", buyerFromDb.Phone);
             }
         }
@@ -133,7 +133,7 @@ namespace EstateAgentUnitTests
                     FirstName = "updated firstname",
                     Surname = "Got Married",
                     Address = "123 moved road",
-                    Postcode = "TT 45 9",
+                    PostCode = "TT 45 9",
                     Phone = "0987654321"
                 };
 
@@ -144,7 +144,7 @@ namespace EstateAgentUnitTests
                 Assert.Equal("updated firstname", buyerFromDb.FirstName);
                 Assert.Equal("Got Married", buyerFromDb.Surname);
                 Assert.Equal("123 moved road", buyerFromDb.Address);
-                Assert.Equal("TT 45 9", buyerFromDb.Postcode);
+                Assert.Equal("TT 45 9", buyerFromDb.PostCode);
                 Assert.Equal("0987654321", buyerFromDb.Phone);
             }
             
@@ -188,7 +188,7 @@ namespace EstateAgentUnitTests
                     FirstName = "updated firstname",
                     Surname = "Got Married",
                     Address = "123 moved road",
-                    Postcode = "TT 45 9",
+                    PostCode = "TT 45 9",
                     Phone = "0987654321"
                 };
                 _controller.AddBuyer(secondBuyer);
@@ -199,7 +199,7 @@ namespace EstateAgentUnitTests
                 Assert.Equal("updated firstname", buyerFromId.Value.FirstName);
                 Assert.Equal("Got Married", buyerFromId.Value.Surname);
                 Assert.Equal("123 moved road", buyerFromId.Value.Address);
-                Assert.Equal("TT 45 9", buyerFromId.Value.Postcode);
+                Assert.Equal("TT 45 9", buyerFromId.Value.PostCode);
                 Assert.Equal("0987654321", buyerFromId.Value.Phone);
             }
         }
@@ -238,7 +238,7 @@ namespace EstateAgentUnitTests
                     FirstName = "updated firstname",
                     Surname = "Got Married",
                     Address = "123 moved road",
-                    Postcode = "TT 45 9",
+                    PostCode = "TT 45 9",
                     Phone = "0987654321"
                 };
 

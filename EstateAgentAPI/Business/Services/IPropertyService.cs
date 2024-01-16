@@ -1,6 +1,6 @@
-﻿using EstateAgentAPI.Buisness.DTO;
+﻿using EstateAgentAPI.Business.DTO;
 
-namespace EstateAgentAPI.Buisness.Services
+namespace EstateAgentAPI.Business.Services
 {
     public interface IPropertyService
     {

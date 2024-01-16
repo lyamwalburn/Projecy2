@@ -1,49 +1,37 @@
-﻿
-using EstateAgentAPI.Persistence.Repositories.Contracts;
+﻿using EstateAgentAPI.Persistence.Repositories.Contracts;
 using System.ComponentModel.DataAnnotations;
 
 namespace EstateAgentAPI.Business.DTO
 {
-    public class SellerDTO : EntityBase, IEquatable<SellerDTO>
+    public class BuyerDTO :EntityBase, IEquatable<BuyerDTO>
     {
-        public SellerDTO()
-        {
+        public BuyerDTO() { }
 
-        }
         [Key]
         public override int Id { get; set; }
-
-
-        public int SellerId { get { return Id; } set { Id = value; }}
+        public int BuyerId { get { return Id; } set { Id = value; } }
         public string? FirstName { get; set; }
-        public string? SurName { get; set; }
+        public string? Surname { get; set; }
         public string? Address { get; set; }
         public string? PostCode { get; set; }
         public string? Phone { get; set; }
 
-
-        public object Clone()
-        {
-            return new SellerDTO
-            {
-                Id = this.Id,
-               // SellerId = this.SellerId,
-                FirstName = this.FirstName,
-                SurName = this.SurName,
-                Address = this.Address,
-                PostCode = this.PostCode,
-                Phone = this.Phone
-
-            };
-        }
-
-
-
-       
-
-        public bool Equals(SellerDTO? other)
+        public bool Equals(BuyerDTO? other)
         {
             return Id == other.Id;
         }
+
+        public object Clone()
+        {
+            return new BuyerDTO
+            {
+                Id = this.Id,
+                FirstName = this.FirstName,
+                Surname = this.Surname,
+                Address = this.Address,
+                PostCode = this.PostCode,
+                Phone = this.Phone
+            };
         }
+    }
 }

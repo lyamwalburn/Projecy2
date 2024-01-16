@@ -1,5 +1,5 @@
-﻿using EstateAgentAPI.Buisness.DTO;
-using EstateAgentAPI.Buisness.Services;
+﻿using EstateAgentAPI.Business.DTO;
+using EstateAgentAPI.Business.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
