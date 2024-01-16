@@ -37,7 +37,6 @@ namespace EstateAgentUnitTests
             return services.BuildServiceProvider();
         }
 
-
         private BookingDTO GetMockBookingDTO(int id)
         {
             return new BookingDTO
@@ -84,14 +83,14 @@ namespace EstateAgentUnitTests
                 var controller = new BookingController(service);
 
                 context.Database.EnsureDeleted();            
-                controller.AddBooking(GetMockBookingDTO(1));    // TestAddBooking() must pass for this one to pass
+                controller.AddBooking(GetMockBookingDTO(10));    // TestAddBooking() must pass for this one to pass
                 controller.AddBooking(GetMockBookingDTO(100));
 
                 var bookingsFromDb = controller.Index();
                 var booking1 = bookingsFromDb.First();
                 var booking2 = bookingsFromDb.Last();
 
-                Assert.Equal(1, booking1.Id);
+                Assert.Equal(10, booking1.Id);
                 Assert.Equal(100, booking2.Id);
             }
         }
@@ -171,5 +170,78 @@ namespace EstateAgentUnitTests
         }
 
 
+        [Fact]
+        public void Test404ResponseGetBookingById()
+        {
+            var services = GetBookingServiceProvider();
+            using (var scope = services.CreateScope())
+            {
+                var repo = scope.ServiceProvider.GetService<IBookingRepository>();
+                var service = new BookingService(repo, _mapper);
+                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
+                var controller = new BookingController(service);
+
+                context.Database.EnsureDeleted();
+                controller.AddBooking(GetMockBookingDTO(100));
+
+                var actionResult = controller.GetById(99);
+
+                var result = actionResult.Result as NotFoundResult;
+                Assert.NotNull(result);
+                Assert.Equal(404, result.StatusCode);
+            }
+        }
+
+        [Fact]
+        public void Test404ResponseUpdateBooking()
+        {
+            var services = GetBookingServiceProvider();
+            using (var scope = services.CreateScope())
+            {
+                var repo = scope.ServiceProvider.GetService<IBookingRepository>();
+                var service = new BookingService(repo, _mapper);
+                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
+                var controller = new BookingController(service);
+
+                context.Database.EnsureDeleted();
+                var mockBookingDTO = GetMockBookingDTO(100);
+                controller.AddBooking(mockBookingDTO);
+
+                var bookingToUpdate = new BookingDTO
+                {
+                    Id = 99,
+                    BuyerId = 300,
+                    PropertyId = 300,
+                    Time = new DateTime(2024, 01, 30)
+                };
+
+                var actionResult = controller.UpdateBooking(bookingToUpdate);
+
+                var result = actionResult.Result as NotFoundResult;
+                Assert.NotNull(result);
+                Assert.Equal(404, result.StatusCode);
+            }
+        }
+
+        [Fact]
+        public void Test404ResponseDeleteBuyer()
+        {
+            var services = GetBookingServiceProvider();
+            using (var scope = services.CreateScope())
+            {
+                var repo = scope.ServiceProvider.GetService<IBookingRepository>();
+                var service = new BookingService(repo, _mapper);
+                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
+                var controller = new BookingController(service);
+
+                context.Database.EnsureDeleted();
+                controller.AddBooking(GetMockBookingDTO(100));
+
+                var actionResult = controller.DeleteBooking(99);
+                ;
+                Assert.NotNull(actionResult);
+                Assert.Equal(HttpStatusCode.NotFound, actionResult);
+            }
+        }
     }  
 }
