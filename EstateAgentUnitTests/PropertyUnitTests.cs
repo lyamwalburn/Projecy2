@@ -39,7 +39,7 @@ namespace EstateAgentUnitTests
         {
             ServiceCollection services = new ServiceCollection();
 
-            services.AddDbContext<EstateAgentContext>(options => options.UseInMemoryDatabase("MockDBData"));
+            services.AddDbContext<EstateAgentContext>(options => options.UseInMemoryDatabase("MockDBDataProperty"));
             services.AddScoped<IPropertyService, PropertyService>();
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<PropertyController>();
@@ -117,7 +117,7 @@ namespace EstateAgentUnitTests
                 Assert.Equal("testpostcode", propertyFromDb.PostCode);
                 Assert.Equal("apartment", propertyFromDb.Type);
                 Assert.Equal(1, propertyFromDb.NumberOfBedrooms);
-               // Assert.Equal(2, propertyFromDb.NumerOfBathrooms);
+                //Assert.Equal(2, propertyFromDb.NumerOfBathrooms);
                 Assert.Equal(true, propertyFromDb.Garden);
                 Assert.Equal(1000, propertyFromDb.Price);
                 Assert.Equal("SOLD", propertyFromDb.Status);
