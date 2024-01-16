@@ -45,6 +45,7 @@ namespace EstateAgentAPI.Controllers
         public ActionResult<BookingDTO> UpdateBooking(BookingDTO booking)
         {
             booking = _bookingService.Update(booking);
+            if (booking == null) return NotFound();
             return booking;
         }
 
