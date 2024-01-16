@@ -42,7 +42,7 @@ namespace EstateAgentUnitTests
         {
             ServiceCollection services = new ServiceCollection();
 
-            services.AddDbContext<EstateAgentContext>(options => options.UseInMemoryDatabase("MockDBData"));
+            services.AddDbContext<EstateAgentContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
             services.AddScoped<IBuyerService, BuyerService>();
             services.AddScoped<IBuyerRepository, BuyerRepository>();
             services.AddScoped<BuyerController>();
