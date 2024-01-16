@@ -43,6 +43,8 @@ namespace EstateAgentAPI.Controllers
         public ActionResult<BuyerDTO> UpdateBuyer(BuyerDTO buyer)
         {
             buyer = _buyerService.Update(buyer);
+            if (buyer == null)
+                return NotFound();
             return buyer;
         }
 

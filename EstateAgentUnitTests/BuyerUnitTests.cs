@@ -206,7 +206,7 @@ namespace EstateAgentUnitTests
         public void Test404ResponseGetBuyerById()
         {
             var services = GetBuyerServiceProivder();
-            using(var scope = services.CreateScope())
+            using (var scope = services.CreateScope())
             {
                 Setup(scope);
                 _context.Database.EnsureDeleted();
@@ -219,5 +219,35 @@ namespace EstateAgentUnitTests
                 Assert.Equal(404, result.StatusCode);
             }
         }
+
+        [Fact]
+        public void Test404ResponseUpdateBuyer()
+        {
+            var services = GetBuyerServiceProivder();
+            using (var scope = services.CreateScope())
+            {
+                Setup(scope);
+                _context.Database.EnsureDeleted();
+                _controller.AddBuyer(GetMockBuyer());
+
+                var buyerToUpdate = new BuyerDTO
+                {
+                    Id = 99,
+                    FirstName = "updated firstname",
+                    Surname = "Got Married",
+                    Address = "123 moved road",
+                    Postcode = "TT 45 9",
+                    Phone = "0987654321"
+                };
+
+                var actionResult = _controller.UpdateBuyer(buyerToUpdate);
+
+                var result = actionResult.Result as NotFoundResult;
+                Assert.NotNull(result);
+                Assert.Equal(404, result.StatusCode);
+            }
+        }
+
+
     }
 }
