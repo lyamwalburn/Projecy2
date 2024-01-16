@@ -28,7 +28,7 @@ namespace EstateAgentUnitTests
         {
             ServiceCollection services = new ServiceCollection();
 
-            services.AddDbContext<EstateAgentContext>(options => options.UseInMemoryDatabase("MockDBData"));
+            services.AddDbContext<EstateAgentContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<BookingController>();
