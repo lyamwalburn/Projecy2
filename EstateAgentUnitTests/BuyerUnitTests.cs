@@ -20,6 +20,7 @@ namespace EstateAgentUnitTests
             TPCAutoMapper myProfile = new TPCAutoMapper();
             MapperConfiguration configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
             _mapper = new Mapper(configuration);
+
         }
 
         private IServiceProvider GetBuyerServiceProivder()
@@ -39,6 +40,7 @@ namespace EstateAgentUnitTests
         {
             return new BuyerDTO
             {
+                Id = 1,
                 FirstName = "Steve",
                 Surname = "Smith",
                 Address = "1 Main Street",
@@ -90,14 +92,37 @@ namespace EstateAgentUnitTests
                 var controller = new BuyerController(service);
                 //Clear database
                 context.Database.EnsureDeleted();
+                //Add buyer to db
+                controller.AddBuyer(GetMockBuyer());
 
+                var buyerFromDb = controller.Index().FirstOrDefault();
+                
+                Assert.Equal(1, buyerFromDb.Id);
+                Assert.Equal("Smith", buyerFromDb.Surname);
+                Assert.Equal("Steve", buyerFromDb.FirstName);
+                Assert.Equal("1 Main Street", buyerFromDb.Address);
+                Assert.Equal("TE 5T", buyerFromDb.Postcode);
+                Assert.Equal("12345", buyerFromDb.Phone);
+            }
+        }
+
+        [Fact]
+        public void TestPutBuyer()
+        {
+            var services = GetBuyerServiceProivder();
+            using (var scope = services.CreateScope())
+            {
+                var repo = scope.ServiceProvider.GetService<IBuyerRepository>();
+                var service = new BuyerService(repo, _mapper);
+                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
+                var controller = new BuyerController(service);
+                //Clear database
+                context.Database.EnsureDeleted();
                 controller.AddBuyer(GetMockBuyer());
 
 
-
-                Assert.Equal(1, context.Buyers.Count());
-                Assert.Equal("Steve", context.Buyers.FirstOrDefault().FirstName);
             }
+            
         }
     }
 }
