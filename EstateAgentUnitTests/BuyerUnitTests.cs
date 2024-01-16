@@ -83,7 +83,7 @@ namespace EstateAgentUnitTests
                 };
 
                 _controller.AddBuyer(buyerDTO);
-                var buyer = _context.Buyers.Single();
+                var buyer = _context.Buyers.SingleOrDefault(predicate => predicate.Id ==1);
 
                 Assert.Equal(1, buyer.Id);
                 Assert.Equal("testname", buyer.FirstName);
