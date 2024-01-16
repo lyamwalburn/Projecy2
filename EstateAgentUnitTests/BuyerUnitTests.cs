@@ -5,10 +5,12 @@ using EstateAgentAPI.Controllers;
 using EstateAgentAPI.EF;
 using EstateAgentAPI.Persistence.Models;
 using EstateAgentAPI.Persistence.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
+using System.Net;
 
 namespace EstateAgentUnitTests
 {
@@ -197,6 +199,24 @@ namespace EstateAgentUnitTests
                 Assert.Equal("123 moved road", buyerFromId.Value.Address);
                 Assert.Equal("TT 45 9", buyerFromId.Value.Postcode);
                 Assert.Equal("0987654321", buyerFromId.Value.Phone);
+            }
+        }
+
+        [Fact]
+        public void Test404ResponseGetBuyerById()
+        {
+            var services = GetBuyerServiceProivder();
+            using(var scope = services.CreateScope())
+            {
+                Setup(scope);
+                _context.Database.EnsureDeleted();
+                _controller.AddBuyer(GetMockBuyer());
+
+                var actionResult = _controller.GetById(99);
+
+                var result = actionResult.Result as NotFoundResult;
+                Assert.NotNull(result);
+                Assert.Equal(404, result.StatusCode);
             }
         }
     }
