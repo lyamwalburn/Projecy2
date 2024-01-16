@@ -248,6 +248,23 @@ namespace EstateAgentUnitTests
             }
         }
 
+        [Fact]
+        public void Test404ResponseDeleteBuyer()
+        {
+            var services = GetBuyerServiceProivder();
+            using (var scope = services.CreateScope())
+            {
+                Setup(scope);
+                _context.Database.EnsureDeleted();
+                _controller.AddBuyer(GetMockBuyer());
+
+                var actionResult = _controller.DeleteBuyer(99);
+;
+                 Assert.NotNull(actionResult);
+                 Assert.Equal(HttpStatusCode.NotFound, actionResult);
+            }
+        }
+
 
     }
 }
