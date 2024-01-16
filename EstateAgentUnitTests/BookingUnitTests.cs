@@ -36,21 +36,41 @@ namespace EstateAgentUnitTests
         }
 
 
-        private BookingDTO GetMockBooking()
+        private BookingDTO GetMockBooking(int id)
         {
             return new BookingDTO
             {
-                BuyerId = 1,
-                PropertyId = 1,
-                Time = new DateTime(2022,12,24)
+                Id = id,
+                BuyerId = 404,
+                PropertyId = 404,
+                Time = new DateTime(2000,01,30)
             };
         }
 
         [Fact]
         public void TestAddBooking()
         {
-            Assert.Equal(1, 1);
+            var services = GetBookingServiceProvider();
+            using(var scope = services.CreateScope())
+            {
+                var repo = scope.ServiceProvider.GetService<IBookingRepository>();
+                var service = new BookingService(repo, _mapper);
+                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
+                var controller = new BookingController(service);
+
+                context.Database.EnsureDeleted();            // ensure database is empty
+                controller.AddBooking(GetMockBooking(404));  
+                var booking = context.Bookings.Single();     
+
+                Assert.Equal(404, booking.Id);
+                Assert.Equal(404, booking.BuyerId);
+                Assert.Equal(404, booking.PropertyId);
+                Assert.Equal(new DateTime(2000, 01, 30), booking.Time); 
+            }
         }
+
+
+        
 
     }
 }
