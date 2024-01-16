@@ -21,12 +21,12 @@ namespace EstateAgentUnitTests
         private BuyerService _service;
         private EstateAgentContext _context;
         private BuyerController _controller;
-
         public BuyerUnitTests()
         {
             TPCAutoMapper myProfile = new TPCAutoMapper();
             MapperConfiguration configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
             _mapper = new Mapper(configuration);
+
         }
 
         private void Setup(IServiceScope scope)
@@ -35,6 +35,7 @@ namespace EstateAgentUnitTests
             _service = new BuyerService(_repo, _mapper);
             _context = scope.ServiceProvider.GetService<EstateAgentContext>();
             _controller = new BuyerController(_service);
+  
         }
 
         private IServiceProvider GetBuyerServiceProivder()
@@ -75,6 +76,7 @@ namespace EstateAgentUnitTests
 
                 var buyerDTO = new BuyerDTO
                 {
+                    Id = 34,
                     FirstName = "testname",
                     Surname = "surnametest",
                     Address = "123 test street",
@@ -83,14 +85,14 @@ namespace EstateAgentUnitTests
                 };
 
                 _controller.AddBuyer(buyerDTO);
-                var buyer = _context.Buyers.SingleOrDefault(predicate => predicate.Id ==1);
+                var buyer = _context.Buyers.SingleOrDefault(predicate => predicate.Id ==34);
 
-                Assert.Equal(1, buyer.Id);
+                Assert.Equal(34, buyer.Id);
                 Assert.Equal("testname", buyer.FirstName);
             }
         }
 
-
+        
         [Fact]
         public void TestGetBuyer()
         {
