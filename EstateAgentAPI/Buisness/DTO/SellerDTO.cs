@@ -1,4 +1,6 @@
 ﻿
+using EstateAgentAPI.Buisness.Helpers.SellerValidationAttributes;
+
 using EstateAgentAPI.Persistence.Repositories.Contracts;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,14 +13,24 @@ namespace EstateAgentAPI.Business.DTO
 
         }
         [Key]
+       
         public override int Id { get; set; }
 
-
+       
         public int SellerId { get { return Id; } set { Id = value; }}
+        [SellerNameValidationAttribute]
+        [SellerNameSpecialCharValidationAttribute]
+      
+       
         public string? FirstName { get; set; }
-        public string? SurName { get; set; }
+        [SellerNameValidationAttribute]
+        [SellerNameSpecialCharValidationAttribute]
+      
+        public string? Surname { get; set; }
         public string? Address { get; set; }
-        public string? PostCode { get; set; }
+        public string? Postcode { get; set; }
+        [SellerPhoneSpecialCharValidationAttribute]
+        [MaxLength(10)]
         public string? Phone { get; set; }
 
 
@@ -29,9 +41,9 @@ namespace EstateAgentAPI.Business.DTO
                 Id = this.Id,
                // SellerId = this.SellerId,
                 FirstName = this.FirstName,
-                SurName = this.SurName,
+                Surname = this.Surname,
                 Address = this.Address,
-                PostCode = this.PostCode,
+                Postcode = this.Postcode,
                 Phone = this.Phone
 
             };
