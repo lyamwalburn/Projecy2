@@ -42,9 +42,10 @@ namespace EstateAgentAPI.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<BookingDTO> UpdateBuyer(BookingDTO booking)
+        public ActionResult<BookingDTO> UpdateBooking(BookingDTO booking)
         {
             booking = _bookingService.Update(booking);
+            if (booking == null) return NotFound();
             return booking;
         }
 
