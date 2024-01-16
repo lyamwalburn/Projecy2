@@ -142,5 +142,29 @@ namespace EstateAgentUnitTests
             }
             
         }
+
+        [Fact]
+        public void TestDeleteBuyer()
+        {
+            var services = GetBuyerServiceProivder();
+            using (var scope = services.CreateScope())
+            {
+                var repo = scope.ServiceProvider.GetService<IBuyerRepository>();
+                var service = new BuyerService(repo, _mapper);
+                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
+                var controller = new BuyerController(service);
+                //Clear database
+                context.Database.EnsureDeleted();
+                controller.AddBuyer(GetMockBuyer());
+
+                var expectedRecordsCount = 0;
+
+                controller.DeleteBuyer(1);
+
+                var buyersFromDb = controller.Index();
+
+                Assert.Equal(expectedRecordsCount, buyersFromDb.Count());
+            }
+        }
     }
 }
