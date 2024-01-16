@@ -1,5 +1,6 @@
-﻿using EstateAgentAPI.Buisness.DTO;
-using EstateAgentAPI.Buisness.Services;
+﻿using EstateAgentAPI.Business.DTO;
+using EstateAgentAPI.Business.Services;
+using EstateAgentAPI.Persistence.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -44,6 +45,8 @@ namespace EstateAgentAPI.Controllers
         public ActionResult<PropertyDTO> UpdateProperty(PropertyDTO property)
         {
             property = _propertyService.Update(property);
+            if (property == null)
+                return NotFound();
             return property;
         }
 

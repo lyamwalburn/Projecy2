@@ -13,7 +13,7 @@ namespace EstateAgentAPI.Persistence.Models
         public string FirstName { get; set; }
         public string Surname { get; set; }
         public string Address { get; set; }
-        public string Postcode { get; set; }
+        public string PostCode { get; set; }
         public string Phone { get; set; }
 
         public object Clone()
@@ -24,7 +24,7 @@ namespace EstateAgentAPI.Persistence.Models
                 FirstName = this.FirstName,
                 Surname = this.Surname,
                 Address = this.Address,
-                Postcode = this.Postcode,
+                PostCode = this.PostCode,
                 Phone = this.Phone
             };
         }

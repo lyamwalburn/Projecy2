@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using EstateAgentAPI.Buisness.DTO;
 using EstateAgentAPI.Business.DTO;
-using EstateAgentAPI.Business.Services;
 using EstateAgentAPI.Persistence.Models;
 using EstateAgentAPI.Persistence.Repositories;
 using System;
@@ -63,7 +61,7 @@ namespace EstateAgentAPI.Business.Services
             sel.FirstName = sellerData.FirstName;
             sel.Surname = sellerData.Surname;
             sel.Address = sellerData.Address;
-            sel.Postcode = sellerData.Postcode;
+            sel.PostCode = sellerData.PostCode;
             sel.Phone = sellerData.Phone;
 
             Seller seller = _sellerRepository.Update(sel);

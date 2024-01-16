@@ -23,10 +23,7 @@ namespace EstateAgentAPI.Business.DTO
       
        
         public string? FirstName { get; set; }
-        [SellerNameValidationAttribute]
-        [SellerNameSpecialCharValidationAttribute]
-      
-        public string? Surname { get; set; }
+        public string? SurName { get; set; }
         public string? Address { get; set; }
         public string? Postcode { get; set; }
         [SellerPhoneSpecialCharValidationAttribute]

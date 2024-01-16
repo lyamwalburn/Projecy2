@@ -17,8 +17,8 @@ namespace EstateAgentAPI.Persistence.Models
         public string Type { get; set; }
         public int NumberOfBedrooms { get; set; }
         public int NumberOfBathrooms { get; set; }
-        public int Garden { get; set; }
-        public double Price { get; set; }
+        public bool Garden { get; set; }
+        public decimal Price { get; set; }
         public string Status { get; set; }
         public int SellerId { get; set; }
         public int? BuyerId { get; set; }

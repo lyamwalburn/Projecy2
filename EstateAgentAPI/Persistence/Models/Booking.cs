@@ -9,7 +9,7 @@ namespace EstateAgentAPI.Persistence.Models
         [Column("BOOKING_ID")]
         [Key]
         public override int Id { get; set; }
-        public int BookingId { get; set; }
+        //public int BookingId { get; set; }
         public int BuyerId { get; set; }
         public int PropertyId { get;set; }
         public DateTime Time { get; set; }
@@ -18,11 +18,10 @@ namespace EstateAgentAPI.Persistence.Models
         {
             return new Booking {
                 Id = this.Id,
-            BookingId = this.BookingId,
-            BuyerId = this.BuyerId,
-            PropertyId = this.PropertyId,
-            Time = this.Time
-        };
+                BuyerId = this.BuyerId,
+                PropertyId = this.PropertyId,
+                Time = this.Time
+            };
         }
             
         public bool Equals(Booking? other)

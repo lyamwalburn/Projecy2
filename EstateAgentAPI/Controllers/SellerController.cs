@@ -1,5 +1,4 @@
 ﻿
-using EstateAgentAPI.Buisness.DTO;
 using EstateAgentAPI.Business.DTO;
 using EstateAgentAPI.Business.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +45,7 @@ namespace EstateAgentAPI.Controllers
         public ActionResult<SellerDTO> UpdateSeller(SellerDTO seller)
         {
             seller = _sellerService.Update(seller);
+            if (seller == null) return NotFound();
             return seller;
         }
 

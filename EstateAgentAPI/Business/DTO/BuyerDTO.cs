@@ -1,7 +1,7 @@
 ﻿using EstateAgentAPI.Persistence.Repositories.Contracts;
 using System.ComponentModel.DataAnnotations;
 
-namespace EstateAgentAPI.Buisness.DTO
+namespace EstateAgentAPI.Business.DTO
 {
     public class BuyerDTO :EntityBase, IEquatable<BuyerDTO>
     {
@@ -13,7 +13,7 @@ namespace EstateAgentAPI.Buisness.DTO
         public string? FirstName { get; set; }
         public string? Surname { get; set; }
         public string? Address { get; set; }
-        public string? Postcode { get; set; }
+        public string? PostCode { get; set; }
         public string? Phone { get; set; }
 
         public bool Equals(BuyerDTO? other)
@@ -29,7 +29,7 @@ namespace EstateAgentAPI.Buisness.DTO
                 FirstName = this.FirstName,
                 Surname = this.Surname,
                 Address = this.Address,
-                Postcode = this.Postcode,
+                PostCode = this.PostCode,
                 Phone = this.Phone
             };
         }

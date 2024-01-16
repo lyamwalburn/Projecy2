@@ -13,6 +13,10 @@ namespace EstateAgentAPI.EF
         }
 
         public virtual DbSet<Buyer> Buyers { get; set; } = null;
+        public virtual DbSet<Seller> Sellers { get; set; } = null;
+        public virtual DbSet<Property> Properties { get; set; } = null;
+        public virtual DbSet<Booking> Bookings { get; set; } = null;
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -28,7 +32,7 @@ namespace EstateAgentAPI.EF
                 entity.Property(e => e.FirstName).HasColumnName("FIRST_NAME");
                 entity.Property(e => e.Surname).HasColumnName("SURNAME");
                 entity.Property(e => e.Address).HasColumnName("ADDRESS");
-                entity.Property(e => e.Postcode).HasColumnName("POSTCODE");
+                entity.Property(e => e.PostCode).HasColumnName("POSTCODE");
                 entity.Property(e => e.Phone).HasColumnName("PHONE");
             });
 
@@ -47,7 +51,7 @@ namespace EstateAgentAPI.EF
                 entity.Property(e => e.Address)
                    .HasMaxLength(255)
                    .HasColumnName("ADDRESS");
-                entity.Property(e => e.Postcode)
+                entity.Property(e => e.PostCode)
                    .HasMaxLength(255)
                    .HasColumnName("POSTCODE");
                 entity.Property(e => e.Phone)
@@ -69,6 +73,15 @@ namespace EstateAgentAPI.EF
                 entity.Property(e => e.SellerId).HasColumnName("SELLER_ID");
                 entity.Property(e => e.BuyerId).HasColumnName("BUYER_ID");
 
+            });
+
+            modelBuilder.Entity<Booking>(entity =>
+            {
+                entity.ToTable("booking");
+                entity.Property(e => e.Id).HasColumnName("BOOKING_ID");
+                entity.Property(e => e.BuyerId).HasColumnName("BUYER_ID");
+                entity.Property(e => e.PropertyId).HasColumnName("PROPERTY_ID");
+                entity.Property(e => e.Time).HasColumnName("TIME");
             });
 
             OnModelCreatingPartial(modelBuilder);
