@@ -70,7 +70,30 @@ namespace EstateAgentUnitTests
         }
 
 
-        
+        [Fact]
+        public void TestIndexGetAll()
+        {
+            var services = GetBookingServiceProvider();
+            using (var scope = services.CreateScope())
+            {
+                var repo = scope.ServiceProvider.GetService<IBookingRepository>();
+                var service = new BookingService(repo, _mapper);
+                var context = scope.ServiceProvider.GetService<EstateAgentContext>();
+                var controller = new BookingController(service);
+
+                context.Database.EnsureDeleted();            // ensure database is empty
+                // TestAddBooking() must pass for this one to pass
+                controller.AddBooking(GetMockBooking(1));
+                controller.AddBooking(GetMockBooking(404));
+
+                var bookingsFromDb = controller.Index();
+                var booking1 = bookingsFromDb.First();
+                var booking2 = bookingsFromDb.Last();
+
+                Assert.Equal(1, booking1.Id);
+                Assert.Equal(404, booking2.Id);
+            }
+        }
 
     }
 }
