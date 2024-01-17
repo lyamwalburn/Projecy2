@@ -29,6 +29,17 @@ namespace EstateAgentAPI.Business.Services
         public void Delete(PropertyDTO dtoProperty)
         {
             Property property = _mapper.Map<Property>(dtoProperty);
+
+            //remove all bookings which have a matching PropertyId from DB
+            var bookings = _bookingRepository.FindAll().ToList();
+            foreach (Booking booking in bookings)
+            {
+                if (booking.PropertyId == property.Id)
+                {
+                    _bookingRepository.Delete(booking);
+                }
+            }
+
             _propertiesRepository.Delete(property);
         }
 
