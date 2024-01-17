@@ -147,7 +147,7 @@ namespace EstateAgentUnitTests.ServiceTests
                 _service.Update(mock);
                 //compare the local to the db-pulled
                 var sellerFromDb = _service.FindById(1);
-                Assert.Equal(mock.FirstName, sellerFromDb.FirstName);
+                Assert.Equal("Peter", sellerFromDb.FirstName);
             }
         }
 

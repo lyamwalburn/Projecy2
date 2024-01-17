@@ -100,7 +100,7 @@ namespace EstateAgentUnitTests.ServiceTests
                 Setup(scope);
                 //empty db
                 _context.Database.EnsureDeleted();
-                //add buyers to db
+                //add buyer to db
                 var mock = CreateMockBuyerDTO();
                 mock.Id = 100;
                 _controller.AddBuyer(mock);
@@ -122,7 +122,7 @@ namespace EstateAgentUnitTests.ServiceTests
                 _context.Database.EnsureDeleted();
                 //create buyer 
                 var mock = CreateMockBuyerDTO();
-                //do create(mock1) to create it in the db
+                //do create(mock) to create it in the db
                 _service.Create(mock);
                 //get it from db
                 var buyerFromDb = _service.FindById(1);
@@ -148,7 +148,7 @@ namespace EstateAgentUnitTests.ServiceTests
                 _service.Update(mock);
                 //compare the local to the db-pulled
                 var buyerFromDb = _service.FindById(1);
-                Assert.Equal(mock.FirstName, buyerFromDb.FirstName);
+                Assert.Equal("Peter", buyerFromDb.FirstName);
             }
         }
 

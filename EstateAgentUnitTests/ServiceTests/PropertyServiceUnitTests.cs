@@ -152,7 +152,7 @@ namespace EstateAgentUnitTests.ServiceTests
                 _service.Update(mock);
                 //compare the local to the db-pulled
                 var propertyFromDb = _service.FindById(1);
-                Assert.Equal(mock.NumberOfBathrooms, propertyFromDb.NumberOfBathrooms);
+                Assert.Equal(5, propertyFromDb.NumberOfBathrooms);
             }
         }
 
