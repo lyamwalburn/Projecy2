@@ -17,6 +17,7 @@ namespace EstateAgentUnitTests
     {
         private Mapper _mapper;
         private IPropertyRepository _repo;
+        private IBookingRepository _repo2;
         private PropertyService _service;
         private EstateAgentContext _context;
         private PropertyController _controller;
@@ -30,7 +31,8 @@ namespace EstateAgentUnitTests
         private void Setup(IServiceScope scope)
         {
             _repo = scope.ServiceProvider.GetService<IPropertyRepository>();
-            _service = new PropertyService(_repo, _mapper);
+            _repo2 = scope.ServiceProvider.GetService<IBookingRepository>();
+            _service = new PropertyService(_repo, _repo2, _mapper);
             _context = scope.ServiceProvider.GetService<EstateAgentContext>();
             _controller = new PropertyController(_service);
         }

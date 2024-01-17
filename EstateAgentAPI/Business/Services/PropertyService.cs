@@ -8,11 +8,13 @@ namespace EstateAgentAPI.Business.Services
     public class PropertyService : IPropertyService
     {
         IPropertyRepository _propertiesRepository;
+        IBookingRepository _bookingRepository;
         private IMapper _mapper;
 
-        public PropertyService(IPropertyRepository propertiesRepository, IMapper mapper)
+        public PropertyService(IPropertyRepository propertiesRepository, IBookingRepository bookingsRepository, IMapper mapper)
         {
             _propertiesRepository = propertiesRepository;
+            _bookingRepository = bookingsRepository;
             _mapper = mapper;
         }
 
@@ -52,8 +54,7 @@ namespace EstateAgentAPI.Business.Services
         {
             Property propertyData = _mapper.Map<Property>(property);
             var p = _propertiesRepository.FindById(propertyData.Id);
-            if (p == null)
-                return null;
+            if (p == null) return null;
 
             p.Address = propertyData.Address;
             p.PostCode = propertyData.PostCode;
@@ -66,6 +67,52 @@ namespace EstateAgentAPI.Business.Services
 
             Property prop = _propertiesRepository.Update(p);
             PropertyDTO dtoProperty = _mapper.Map<PropertyDTO>(prop);
+            return dtoProperty;
+        }
+
+        public PropertyDTO SellProperty(int propertyId)
+        {
+            var p = _propertiesRepository.FindById(propertyId);
+            if (p == null) return null;
+        
+            p.Status = "SOLD";
+        
+            Property prop = _propertiesRepository.Update(p);
+            PropertyDTO dtoProperty = _mapper.Map<PropertyDTO>(prop);
+
+            //remove all bookings which have a matching PropertyId from DB
+            var bookings = _bookingRepository.FindAll().ToList();
+            foreach (Booking booking in bookings)
+            {
+                if (booking.PropertyId ==  propertyId)
+                {
+                    _bookingRepository.Delete(booking);
+                }
+            }
+
+            return dtoProperty;
+        }
+
+        public PropertyDTO WithdrawProperty(int propertyId)
+        {
+            var p = _propertiesRepository.FindById(propertyId);
+            if (p == null) return null;
+
+            p.Status = "WITHDRAWN";
+
+            Property prop = _propertiesRepository.Update(p);
+            PropertyDTO dtoProperty = _mapper.Map<PropertyDTO>(prop);
+
+            //remove all bookings which have a matching PropertyId from DB
+            var bookings = _bookingRepository.FindAll().ToList();
+            foreach (Booking booking in bookings)
+            {
+                if (booking.PropertyId == propertyId)
+                {
+                    _bookingRepository.Delete(booking);
+                }
+            }
+
             return dtoProperty;
         }
     }
