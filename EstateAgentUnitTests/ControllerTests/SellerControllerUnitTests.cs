@@ -18,6 +18,7 @@ namespace EstateAgentUnitTests.ControllerTests
     {
         private Mapper _mapper;
         private ISellerRepository _repo;
+        private IPropertyRepository _repo2;
         private SellerService _service;
         private EstateAgentContext _context;
         private SellerController _controller;
@@ -32,7 +33,8 @@ namespace EstateAgentUnitTests.ControllerTests
         private void Setup(IServiceScope scope)
         {
             _repo = scope.ServiceProvider.GetService<ISellerRepository>();
-            _service = new SellerService(_repo, _mapper);
+            _repo2 = scope.ServiceProvider.GetService<IPropertyRepository>();
+            _service = new SellerService(_repo, _repo2, _mapper);
             _context = scope.ServiceProvider.GetService<EstateAgentContext>();
             _controller = new SellerController(_service);
 
@@ -45,6 +47,7 @@ namespace EstateAgentUnitTests.ControllerTests
             services.AddDbContext<EstateAgentContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
             services.AddScoped<ISellerService, SellerService>();
             services.AddScoped<ISellerRepository, SellerRepository>();
+            services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<SellerController>();
             services.AddAutoMapper(typeof(Program));
             services.AddControllers();

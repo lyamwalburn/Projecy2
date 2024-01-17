@@ -64,8 +64,8 @@ namespace EstateAgentUnitTests.ControllerTests
                 Garden = true,
                 Price = 1000,
                 Status = "SOLD",
-                BuyerId = 4,
-                SellerId = 11
+                SellerId = 11,
+                BuyerId = 4
             };
         }
 

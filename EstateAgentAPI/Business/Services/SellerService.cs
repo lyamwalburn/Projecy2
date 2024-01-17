@@ -8,14 +8,14 @@ namespace EstateAgentAPI.Business.Services
 {
     public class SellerService : ISellerService
     {
-
-
         ISellerRepository _sellerRepository;
+        IPropertyRepository _propertyRepository;
         private IMapper _mapper;
 
-        public SellerService(ISellerRepository repository, IMapper mapper)
+        public SellerService(ISellerRepository sellerRepository, IPropertyRepository propertyRepository, IMapper mapper)
         {
-            _sellerRepository = repository;
+            _sellerRepository = sellerRepository;
+            _propertyRepository = propertyRepository;
             _mapper = mapper;
         }
 
@@ -30,6 +30,17 @@ namespace EstateAgentAPI.Business.Services
         public void Delete(SellerDTO dtoSeller)
         {
             Seller seller = _mapper.Map<Seller>(dtoSeller);
+
+            //remove all properties which have a matching sellerId
+            var properties = _propertyRepository.FindAll().ToList();
+            foreach (Property property in properties)
+            {
+                if (property.SellerId == seller.Id)
+                {
+                    _propertyRepository.Delete(property);
+                }
+            }
+
             _sellerRepository.Delete(seller);
         }
 
