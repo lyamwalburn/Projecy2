@@ -63,6 +63,7 @@ namespace EstateAgentAPI.Buisness.Services
             p.Garden = propertyData.Garden;
             p.Price = propertyData.Price;
             p.Status = propertyData.Status;
+           
 
             Property prop = _propertiesRepository.Update(p);
             PropertyDTO dtoProperty = _mapper.Map<PropertyDTO>(prop);

@@ -72,6 +72,7 @@ namespace EstateAgentAPI.EF
                 entity.Property(e => e.Price).HasColumnName("PRICE");
                 entity.Property(e => e.SellerId).HasColumnName("SELLER_ID");
                 entity.Property(e => e.BuyerId).HasColumnName("BUYER_ID");
+               
 
             });
 

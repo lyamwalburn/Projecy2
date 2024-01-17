@@ -22,6 +22,7 @@ namespace EstateAgentAPI.Persistence.Models
         public string Status { get; set; }
         public int SellerId { get; set; }
         public int? BuyerId { get; set; }
+      
 
         public object Clone()
         {

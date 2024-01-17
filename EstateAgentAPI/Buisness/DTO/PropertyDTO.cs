@@ -20,6 +20,7 @@ namespace EstateAgentAPI.Buisness.DTO
         public string? Status { get; set; }
         public int? SellerID { get; set; }
         public int? BuyerID { get; set; }
+       
 
         public bool Equals(PropertyDTO? other)
         {
@@ -41,6 +42,7 @@ namespace EstateAgentAPI.Buisness.DTO
                 Status = this.Status,
                 SellerID = this.SellerID,
                 BuyerID = this.BuyerID
+
             };
         }
     }
