@@ -1,5 +1,7 @@
-﻿using EstateAgentAPI.Persistence.Models;
+﻿using EstateAgentAPI.WebApi.Models;
+using EstateAgentAPI.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace EstateAgentAPI.EF
 {
@@ -16,6 +18,8 @@ namespace EstateAgentAPI.EF
         public virtual DbSet<Seller> Sellers { get; set; } = null;
         public virtual DbSet<Property> Properties { get; set; } = null;
         public virtual DbSet<Booking> Bookings { get; set; } = null;
+        public virtual DbSet<User> Users { get; set; } = null;
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -83,6 +87,14 @@ namespace EstateAgentAPI.EF
                 entity.Property(e => e.BuyerId).HasColumnName("BUYER_ID");
                 entity.Property(e => e.PropertyId).HasColumnName("PROPERTY_ID");
                 entity.Property(e => e.Time).HasColumnName("TIME");
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("users");
+                entity.Property(e => e.Id).HasColumnName("USER_ID");
+                entity.Property(e => e.Password).HasColumnName("password");
+                entity.Property(e => e.UserName).HasColumnName("username");
             });
 
             OnModelCreatingPartial(modelBuilder);

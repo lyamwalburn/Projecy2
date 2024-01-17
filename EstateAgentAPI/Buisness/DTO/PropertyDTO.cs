@@ -18,8 +18,8 @@ namespace EstateAgentAPI.Buisness.DTO
         public bool? Garden { get; set; }
         public decimal? Price { get; set; }
         public string? Status { get; set; }
-        public int? SellerID { get; set; }
-        public int? BuyerID { get; set; }
+        public int? SellerId { get; set; }
+        public int? BuyerId { get; set; }
        
 
         public bool Equals(PropertyDTO? other)
@@ -40,8 +40,8 @@ namespace EstateAgentAPI.Buisness.DTO
                 Garden = this.Garden,
                 Price = this.Price,
                 Status = this.Status,
-                SellerID = this.SellerID,
-                BuyerID = this.BuyerID
+                SellerId = this.SellerId,
+                BuyerId = this.BuyerId
 
             };
         }

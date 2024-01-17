@@ -1,6 +1,8 @@
 ﻿using EstateAgentAPI.Buisness.DTO;
 using EstateAgentAPI.Buisness.Services;
 using EstateAgentAPI.Persistence.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -8,6 +10,11 @@ namespace EstateAgentAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+
+    //Authorisation Scheme
+    [Authorize]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
     public class BookingController : Controller
     {
         private IBookingService _bookingService;
