@@ -34,7 +34,7 @@ namespace EstateAgentAPI.Business.Services
             var bookings = _bookingRepository.FindAll().ToList();
             foreach (Booking booking in bookings)
             {
-                if (booking.PropertyId == property.Id)
+                if (booking.PropertyId == dtoProperty.Id)
                 {
                     _bookingRepository.Delete(booking);
                 }

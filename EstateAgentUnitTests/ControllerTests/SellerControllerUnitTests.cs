@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using EstateAgentAPI.Business.DTO;
 using EstateAgentAPI.Business.Services;
 using EstateAgentAPI.Controllers;
@@ -12,16 +12,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using System.Net;
 
-namespace EstateAgentUnitTests
+namespace EstateAgentUnitTests.ControllerTests
 {
-    public class BuyerUnitTests
+    public class SellerControllerUnitTests
     {
         private Mapper _mapper;
-        private IBuyerRepository _repo;
-        private BuyerService _service;
+        private ISellerRepository _repo;
+        private SellerService _service;
         private EstateAgentContext _context;
-        private BuyerController _controller;
-        public BuyerUnitTests()
+        private SellerController _controller;
+        public SellerControllerUnitTests()
         {
             TPCAutoMapper myProfile = new TPCAutoMapper();
             MapperConfiguration configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
@@ -31,29 +31,29 @@ namespace EstateAgentUnitTests
 
         private void Setup(IServiceScope scope)
         {
-            _repo= scope.ServiceProvider.GetService<IBuyerRepository>();
-            _service = new BuyerService(_repo, _mapper);
+            _repo = scope.ServiceProvider.GetService<ISellerRepository>();
+            _service = new SellerService(_repo, _mapper);
             _context = scope.ServiceProvider.GetService<EstateAgentContext>();
-            _controller = new BuyerController(_service);
-  
+            _controller = new SellerController(_service);
+
         }
 
-        private IServiceProvider GetBuyerServiceProivder()
+        private IServiceProvider GetSellerServiceProivder()
         {
             ServiceCollection services = new ServiceCollection();
 
             services.AddDbContext<EstateAgentContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
-            services.AddScoped<IBuyerService, BuyerService>();
-            services.AddScoped<IBuyerRepository, BuyerRepository>();
-            services.AddScoped<BuyerController>();
+            services.AddScoped<ISellerService, SellerService>();
+            services.AddScoped<ISellerRepository, SellerRepository>();
+            services.AddScoped<SellerController>();
             services.AddAutoMapper(typeof(Program));
             services.AddControllers();
             return services.BuildServiceProvider();
         }
 
-        private BuyerDTO GetMockBuyer()
+        private SellerDTO GetMockSeller()
         {
-            return new BuyerDTO
+            return new SellerDTO
             {
                 Id = 1,
                 FirstName = "Steve",
@@ -65,16 +65,16 @@ namespace EstateAgentUnitTests
         }
 
         [Fact]
-        public void TestAddBuyer()
+        public void TestAddSeller()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetSellerServiceProivder();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
                 //Clear database
                 _context.Database.EnsureDeleted();
 
-                var buyerDTO = new BuyerDTO
+                var sellerDTO = new SellerDTO
                 {
                     Id = 34,
                     FirstName = "testname",
@@ -84,50 +84,50 @@ namespace EstateAgentUnitTests
                     Phone = "123456789"
                 };
 
-                _controller.AddBuyer(buyerDTO);
-                var buyer = _context.Buyers.SingleOrDefault(predicate => predicate.Id ==34);
+                _controller.AddSeller(sellerDTO);
+                var seller = _context.Sellers.SingleOrDefault(predicate => predicate.Id == 34);
 
-                Assert.Equal(34, buyer.Id);
-                Assert.Equal("testname", buyer.FirstName);
+                Assert.Equal(34, seller.Id);
+                Assert.Equal("testname", seller.FirstName);
             }
         }
 
-        
+
         [Fact]
-        public void TestGetBuyer()
+        public void TestGetSeller()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetSellerServiceProivder();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
                 //Clear database
                 _context.Database.EnsureDeleted();
-                //Add buyer to db
-                _controller.AddBuyer(GetMockBuyer());
+                //Add seller to db
+                _controller.AddSeller(GetMockSeller());
 
-                var buyerFromDb = _controller.Index().FirstOrDefault();
-                
-                Assert.Equal(1, buyerFromDb.Id);
-                Assert.Equal("Smith", buyerFromDb.Surname);
-                Assert.Equal("Steve", buyerFromDb.FirstName);
-                Assert.Equal("1 Main Street", buyerFromDb.Address);
-                Assert.Equal("TE 5T", buyerFromDb.PostCode);
-                Assert.Equal("12345", buyerFromDb.Phone);
+                var sellerFromDb = _controller.Index().FirstOrDefault();
+
+                Assert.Equal(1, sellerFromDb.Id);
+                Assert.Equal("Smith", sellerFromDb.Surname);
+                Assert.Equal("Steve", sellerFromDb.FirstName);
+                Assert.Equal("1 Main Street", sellerFromDb.Address);
+                Assert.Equal("TE 5T", sellerFromDb.PostCode);
+                Assert.Equal("12345", sellerFromDb.Phone);
             }
         }
 
         [Fact]
-        public void TestPutBuyer()
+        public void TestPutSeller()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetSellerServiceProivder();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
                 //Clear database
                 _context.Database.EnsureDeleted();
-                _controller.AddBuyer(GetMockBuyer());
+                _controller.AddSeller(GetMockSeller());
 
-                var buyerToUpdate = new BuyerDTO
+                var sellerToUpdate = new SellerDTO
                 {
                     Id = 1,
                     FirstName = "updated firstname",
@@ -137,52 +137,52 @@ namespace EstateAgentUnitTests
                     Phone = "0987654321"
                 };
 
-                _controller.UpdateBuyer(buyerToUpdate);
+                _controller.UpdateSeller(sellerToUpdate);
 
-                var buyerFromDb = _repo.FindById(1);
+                var sellerFromDb = _repo.FindById(1);
 
-                Assert.Equal("updated firstname", buyerFromDb.FirstName);
-                Assert.Equal("Got Married", buyerFromDb.Surname);
-                Assert.Equal("123 moved road", buyerFromDb.Address);
-                Assert.Equal("TT 45 9", buyerFromDb.PostCode);
-                Assert.Equal("0987654321", buyerFromDb.Phone);
+                Assert.Equal("updated firstname", sellerFromDb.FirstName);
+                Assert.Equal("Got Married", sellerFromDb.Surname);
+                Assert.Equal("123 moved road", sellerFromDb.Address);
+                Assert.Equal("TT 45 9", sellerFromDb.PostCode);
+                Assert.Equal("0987654321", sellerFromDb.Phone);
             }
-            
+
         }
 
         [Fact]
-        public void TestDeleteBuyer()
+        public void TestDeleteSeller()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetSellerServiceProivder();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
                 //Clear database
                 _context.Database.EnsureDeleted();
-                _controller.AddBuyer(GetMockBuyer());
+                _controller.AddSeller(GetMockSeller());
 
                 var expectedRecordsCount = 0;
 
-                _controller.DeleteBuyer(1);
+                _controller.DeleteSeller(1);
 
-                var buyersFromDb = _controller.Index();
+                var sellersFromDb = _controller.Index();
 
-                Assert.Equal(expectedRecordsCount, buyersFromDb.Count());
+                Assert.Equal(expectedRecordsCount, sellersFromDb.Count());
             }
         }
 
         [Fact]
         public void TestGetById()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetSellerServiceProivder();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
                 //Clear database
                 _context.Database.EnsureDeleted();
-                _controller.AddBuyer(GetMockBuyer());
+                _controller.AddSeller(GetMockSeller());
 
-                var secondBuyer = new BuyerDTO
+                var secondSeller = new SellerDTO
                 {
                     Id = 2,
                     FirstName = "updated firstname",
@@ -191,28 +191,28 @@ namespace EstateAgentUnitTests
                     PostCode = "TT 45 9",
                     Phone = "0987654321"
                 };
-                _controller.AddBuyer(secondBuyer);
+                _controller.AddSeller(secondSeller);
 
-                ActionResult<BuyerDTO> buyerFromId = _controller.GetById(2);
+                ActionResult<SellerDTO> sellerFromId = _controller.GetById(2);
 
-                Assert.Equal(2,buyerFromId.Value.Id);
-                Assert.Equal("updated firstname", buyerFromId.Value.FirstName);
-                Assert.Equal("Got Married", buyerFromId.Value.Surname);
-                Assert.Equal("123 moved road", buyerFromId.Value.Address);
-                Assert.Equal("TT 45 9", buyerFromId.Value.PostCode);
-                Assert.Equal("0987654321", buyerFromId.Value.Phone);
+                Assert.Equal(2, sellerFromId.Value.Id);
+                Assert.Equal("updated firstname", sellerFromId.Value.FirstName);
+                Assert.Equal("Got Married", sellerFromId.Value.Surname);
+                Assert.Equal("123 moved road", sellerFromId.Value.Address);
+                Assert.Equal("TT 45 9", sellerFromId.Value.PostCode);
+                Assert.Equal("0987654321", sellerFromId.Value.Phone);
             }
         }
 
         [Fact]
-        public void Test404ResponseGetBuyerById()
+        public void Test404ResponseGetSellerById()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetSellerServiceProivder();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
                 _context.Database.EnsureDeleted();
-                _controller.AddBuyer(GetMockBuyer());
+                _controller.AddSeller(GetMockSeller());
 
                 var actionResult = _controller.GetById(99);
 
@@ -223,16 +223,16 @@ namespace EstateAgentUnitTests
         }
 
         [Fact]
-        public void Test404ResponseUpdateBuyer()
+        public void Test404ResponseUpdateSeller()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetSellerServiceProivder();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
                 _context.Database.EnsureDeleted();
-                _controller.AddBuyer(GetMockBuyer());
+                _controller.AddSeller(GetMockSeller());
 
-                var buyerToUpdate = new BuyerDTO
+                var sellerToUpdate = new SellerDTO
                 {
                     Id = 99,
                     FirstName = "updated firstname",
@@ -242,7 +242,7 @@ namespace EstateAgentUnitTests
                     Phone = "0987654321"
                 };
 
-                var actionResult = _controller.UpdateBuyer(buyerToUpdate);
+                var actionResult = _controller.UpdateSeller(sellerToUpdate);
 
                 var result = actionResult.Result as NotFoundResult;
                 Assert.NotNull(result);
@@ -251,19 +251,19 @@ namespace EstateAgentUnitTests
         }
 
         [Fact]
-        public void Test404ResponseDeleteBuyer()
+        public void Test404ResponseDeleteSeller()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetSellerServiceProivder();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
                 _context.Database.EnsureDeleted();
-                _controller.AddBuyer(GetMockBuyer());
+                _controller.AddSeller(GetMockSeller());
 
-                var actionResult = _controller.DeleteBuyer(99);
-;
-                 Assert.NotNull(actionResult);
-                 Assert.Equal(HttpStatusCode.NotFound, actionResult);
+                var actionResult = _controller.DeleteSeller(99);
+                ;
+                Assert.NotNull(actionResult);
+                Assert.Equal(HttpStatusCode.NotFound, actionResult);
             }
         }
 

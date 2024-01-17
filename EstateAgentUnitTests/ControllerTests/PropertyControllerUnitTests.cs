@@ -11,9 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using System.Net;
 
-namespace EstateAgentUnitTests
+namespace EstateAgentUnitTests.ControllerTests
 {
-    public class PropertyUnitTests
+    public class PropertyControllerUnitTests
     {
         private Mapper _mapper;
         private IPropertyRepository _repo;
@@ -22,7 +22,7 @@ namespace EstateAgentUnitTests
         private EstateAgentContext _context;
         private PropertyController _controller;
 
-        public PropertyUnitTests()
+        public PropertyControllerUnitTests()
         {
             TPCAutoMapper myProfile = new TPCAutoMapper();
             MapperConfiguration configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
@@ -37,13 +37,14 @@ namespace EstateAgentUnitTests
             _controller = new PropertyController(_service);
         }
 
-        private IServiceProvider GetPropertyServiceProivder()
+        private IServiceProvider GetPropertyServiceProvider()
         {
             ServiceCollection services = new ServiceCollection();
 
             services.AddDbContext<EstateAgentContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
             services.AddScoped<IPropertyService, PropertyService>();
             services.AddScoped<IPropertyRepository, PropertyRepository>();
+            services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<PropertyController>();
             services.AddAutoMapper(typeof(Program));
             services.AddControllers();
@@ -71,7 +72,7 @@ namespace EstateAgentUnitTests
         [Fact]
         public void TestAddProperty()
         {
-            var services = GetPropertyServiceProivder();
+            var services = GetPropertyServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -103,7 +104,7 @@ namespace EstateAgentUnitTests
         [Fact]
         public void TestGetProperty()
         {
-            var services = GetPropertyServiceProivder();
+            var services = GetPropertyServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -131,7 +132,7 @@ namespace EstateAgentUnitTests
         [Fact]
         public void TestGetById()
         {
-            var services = GetPropertyServiceProivder();
+            var services = GetPropertyServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -175,7 +176,7 @@ namespace EstateAgentUnitTests
         [Fact]
         public void TestPutProperty()
         {
-            var services = GetPropertyServiceProivder();
+            var services = GetPropertyServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -220,7 +221,7 @@ namespace EstateAgentUnitTests
         [Fact]
         public void TestDeleteProperty()
         {
-            var services = GetPropertyServiceProivder();
+            var services = GetPropertyServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -241,7 +242,7 @@ namespace EstateAgentUnitTests
         [Fact]
         public void Test404ResponseGetPropertyById()
         {
-            var services = GetPropertyServiceProivder();
+            var services = GetPropertyServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -259,7 +260,7 @@ namespace EstateAgentUnitTests
         [Fact]
         public void Test404ResponseUpdateProperty()
         {
-            var services = GetPropertyServiceProivder();
+            var services = GetPropertyServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -292,7 +293,7 @@ namespace EstateAgentUnitTests
         [Fact]
         public void Test404ResponseDeleteBuyer()
         {
-            var services = GetPropertyServiceProivder();
+            var services = GetPropertyServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
