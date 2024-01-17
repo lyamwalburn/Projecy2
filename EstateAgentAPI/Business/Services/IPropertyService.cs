@@ -11,5 +11,6 @@ namespace EstateAgentAPI.Business.Services
         void Delete(PropertyDTO entity);
         PropertyDTO SellProperty(int propertyId);
         PropertyDTO WithdrawProperty(int propertyId);
+        PropertyDTO RelistWithdrawnProperty(int propertyId);
     }
 }

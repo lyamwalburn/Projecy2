@@ -83,5 +83,15 @@ namespace EstateAgentAPI.Controllers
             if (property == null) return NotFound();
             return property;
         }
+
+        [HttpPatch("relist{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<PropertyDTO> RelistProperty(int propertyId)
+        {
+            PropertyDTO property = _propertyService.RelistWithdrawnProperty(propertyId);
+            if (property == null) return NotFound();
+            return property;
+        }
     }
 }

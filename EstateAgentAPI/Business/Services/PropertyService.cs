@@ -115,5 +115,18 @@ namespace EstateAgentAPI.Business.Services
 
             return dtoProperty;
         }
+
+        public PropertyDTO RelistWithdrawnProperty(int propertyId)
+        {
+            var p = _propertiesRepository.FindById(propertyId);
+            if (p == null) return null;
+
+            p.Status = "FOR SALE";
+
+            Property prop = _propertiesRepository.Update(p);
+            PropertyDTO dtoProperty = _mapper.Map<PropertyDTO>(prop);
+
+            return dtoProperty;
+        }
     }
 }
