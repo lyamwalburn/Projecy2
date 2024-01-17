@@ -70,12 +70,14 @@ namespace EstateAgentAPI.Business.Services
             return dtoProperty;
         }
 
-        public PropertyDTO SellProperty(int propertyId)
+        public PropertyDTO SellProperty(PropertyDTO property)
         {
-            var p = _propertiesRepository.FindById(propertyId);
+            Property propertyData = _mapper.Map<Property>(property);
+            var p = _propertiesRepository.FindById(propertyData.Id);
             if (p == null) return null;
         
             p.Status = "SOLD";
+            p.BuyerId = propertyData.BuyerId;
         
             Property prop = _propertiesRepository.Update(p);
             PropertyDTO dtoProperty = _mapper.Map<PropertyDTO>(prop);
@@ -84,7 +86,7 @@ namespace EstateAgentAPI.Business.Services
             var bookings = _bookingRepository.FindAll().ToList();
             foreach (Booking booking in bookings)
             {
-                if (booking.PropertyId ==  propertyId)
+                if (booking.PropertyId == propertyData.Id)
                 {
                     _bookingRepository.Delete(booking);
                 }

@@ -67,9 +67,9 @@ namespace EstateAgentAPI.Controllers
         [HttpPatch("sell{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<PropertyDTO> SellProperty(int propertyId)
+        public ActionResult<PropertyDTO> SellProperty(PropertyDTO property)
         {
-            PropertyDTO property = _propertyService.SellProperty(propertyId);
+            property = _propertyService.SellProperty(property);
             if (property == null) return NotFound();
             return property;
         }
