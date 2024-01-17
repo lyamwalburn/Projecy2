@@ -32,7 +32,7 @@ namespace EstateAgentUnitTests.ServiceTests
             _repo = scope.ServiceProvider.GetService<IBookingRepository>();
             _service = new BookingService(_repo,  _mapper);
             _context = scope.ServiceProvider.GetService<EstateAgentContext>();
-            _controller = new BookingController(_service);
+            _controller = new BookingController(_service,_context);
         }
 
         private IServiceProvider GetBookingServiceProvider()

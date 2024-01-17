@@ -34,7 +34,7 @@ namespace EstateAgentUnitTests.ServiceTests
             _repo2 = scope.ServiceProvider.GetService<IPropertyRepository>();
             _service = new SellerService(_repo, _repo2, _mapper);
             _context = scope.ServiceProvider.GetService<EstateAgentContext>();
-            _controller = new SellerController(_service);
+            _controller = new SellerController(_service,_context);
         }
 
         private IServiceProvider GetSellerServiceProvider()

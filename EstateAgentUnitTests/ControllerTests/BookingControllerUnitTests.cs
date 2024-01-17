@@ -57,7 +57,7 @@ namespace EstateAgentUnitTests.ControllerTests
                 var repo = scope.ServiceProvider.GetService<IBookingRepository>();
                 var service = new BookingService(repo, _mapper);
                 var context = scope.ServiceProvider.GetService<EstateAgentContext>();
-                var controller = new BookingController(service);
+                var controller = new BookingController(service,context);
 
                 context.Database.EnsureDeleted();            // ensure database is empty
                 controller.AddBooking(GetMockBookingDTO(100));
@@ -80,7 +80,7 @@ namespace EstateAgentUnitTests.ControllerTests
                 var repo = scope.ServiceProvider.GetService<IBookingRepository>();
                 var service = new BookingService(repo, _mapper);
                 var context = scope.ServiceProvider.GetService<EstateAgentContext>();
-                var controller = new BookingController(service);
+                var controller = new BookingController(service, context);
 
                 context.Database.EnsureDeleted();
                 controller.AddBooking(GetMockBookingDTO(10));    // TestAddBooking() must pass for this one to pass
@@ -105,7 +105,7 @@ namespace EstateAgentUnitTests.ControllerTests
                 var repo = scope.ServiceProvider.GetService<IBookingRepository>();
                 var service = new BookingService(repo, _mapper);
                 var context = scope.ServiceProvider.GetService<EstateAgentContext>();
-                var controller = new BookingController(service);
+                var controller = new BookingController(service, context);
 
                 context.Database.EnsureDeleted();
                 var mockBookingDTO = GetMockBookingDTO(100);
@@ -126,7 +126,7 @@ namespace EstateAgentUnitTests.ControllerTests
                 var repo = scope.ServiceProvider.GetService<IBookingRepository>();
                 var service = new BookingService(repo, _mapper);
                 var context = scope.ServiceProvider.GetService<EstateAgentContext>();
-                var controller = new BookingController(service);
+                var controller = new BookingController(service, context);
 
                 context.Database.EnsureDeleted();
                 BookingDTO mockBookingDTO = GetMockBookingDTO(100);
@@ -155,7 +155,7 @@ namespace EstateAgentUnitTests.ControllerTests
                 var repo = scope.ServiceProvider.GetService<IBookingRepository>();
                 var service = new BookingService(repo, _mapper);
                 var context = scope.ServiceProvider.GetService<EstateAgentContext>();
-                var controller = new BookingController(service);
+                var controller = new BookingController(service, context);
 
                 context.Database.EnsureDeleted();
                 BookingDTO mockBookingDTO = GetMockBookingDTO(200);
@@ -179,7 +179,7 @@ namespace EstateAgentUnitTests.ControllerTests
                 var repo = scope.ServiceProvider.GetService<IBookingRepository>();
                 var service = new BookingService(repo, _mapper);
                 var context = scope.ServiceProvider.GetService<EstateAgentContext>();
-                var controller = new BookingController(service);
+                var controller = new BookingController(service, context);
 
                 context.Database.EnsureDeleted();
                 controller.AddBooking(GetMockBookingDTO(100));
@@ -201,7 +201,7 @@ namespace EstateAgentUnitTests.ControllerTests
                 var repo = scope.ServiceProvider.GetService<IBookingRepository>();
                 var service = new BookingService(repo, _mapper);
                 var context = scope.ServiceProvider.GetService<EstateAgentContext>();
-                var controller = new BookingController(service);
+                var controller = new BookingController(service, context);
 
                 context.Database.EnsureDeleted();
                 var mockBookingDTO = GetMockBookingDTO(100);
@@ -232,7 +232,7 @@ namespace EstateAgentUnitTests.ControllerTests
                 var repo = scope.ServiceProvider.GetService<IBookingRepository>();
                 var service = new BookingService(repo, _mapper);
                 var context = scope.ServiceProvider.GetService<EstateAgentContext>();
-                var controller = new BookingController(service);
+                var controller = new BookingController(service,context);
 
                 context.Database.EnsureDeleted();
                 controller.AddBooking(GetMockBookingDTO(100));
