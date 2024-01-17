@@ -64,7 +64,8 @@ namespace EstateAgentAPI.Controllers
 
 
         // functionality based on property status
-        [HttpPatch("sell/{id}")]
+        [Route("sell/{id}")]
+        [HttpPatch]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<PropertyDTO> SellProperty(PropertyDTO property)
@@ -74,7 +75,8 @@ namespace EstateAgentAPI.Controllers
             return property;
         }
 
-        [HttpPatch("withdraw/{id}")]
+        [Route("withdraw/{id}")]
+        [HttpPatch]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<PropertyDTO> WithdrawProperty(int propertyId)
@@ -84,7 +86,8 @@ namespace EstateAgentAPI.Controllers
             return property;
         }
 
-        [HttpPatch("relist/{id}")]
+        [Route("relist/{id}")]
+        [HttpPatch]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<PropertyDTO> RelistProperty(int propertyId)
