@@ -79,9 +79,9 @@ namespace EstateAgentAPI.Controllers
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<PropertyDTO> WithdrawProperty(int propertyId)
+        public ActionResult<PropertyDTO> WithdrawProperty(int id)
         {
-            PropertyDTO property = _propertyService.WithdrawProperty(propertyId);
+            PropertyDTO property = _propertyService.WithdrawProperty(id);
             if (property == null) return NotFound();
             return property;
         }
@@ -90,9 +90,9 @@ namespace EstateAgentAPI.Controllers
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<PropertyDTO> RelistProperty(int propertyId)
+        public ActionResult<PropertyDTO> RelistProperty(int id)
         {
-            PropertyDTO property = _propertyService.RelistWithdrawnProperty(propertyId);
+            PropertyDTO property = _propertyService.RelistWithdrawnProperty(id);
             if (property == null) return NotFound();
             return property;
         }
