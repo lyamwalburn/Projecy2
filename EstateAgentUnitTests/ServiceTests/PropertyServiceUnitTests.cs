@@ -4,12 +4,10 @@ using EstateAgentAPI.Business.Services;
 using EstateAgentAPI.Controllers;
 using EstateAgentAPI.EF;
 using EstateAgentAPI.Persistence.Models;
-using EstateAgentAPI.Persistence.Repositories;
-using Microsoft.AspNetCore.Mvc;
+using EstateAgentAPI.Persistence.Repositories; 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
-using System.Net;
+using Microsoft.VisualStudio.TestPlatform.TestHost; 
 
 namespace EstateAgentUnitTests.ServiceTests
 {
@@ -107,9 +105,9 @@ namespace EstateAgentUnitTests.ServiceTests
                 //empty db
                 _context.Database.EnsureDeleted();
                 //add properties to db
-                var mock1 = CreateMockPropertyDTO();
-                mock1.Id = 100;
-                _controller.AddProperty(mock1);
+                var mock = CreateMockPropertyDTO();
+                mock.Id = 100;
+                _controller.AddProperty(mock);
                 //do FindById(100) to get from db
                 var propertyFromDb = _service.FindById(100);
                 //compare the local to the db-pulled
@@ -223,7 +221,7 @@ namespace EstateAgentUnitTests.ServiceTests
                 _context.Bookings.Add(mockBooking);
                 //sell property
                 _service.SellProperty(mockProperty);
-                //check the booking got deleted from the db
+                //check the booking also got deleted from the db
                 var bookingsCountFromDb = _context.Bookings.Count();    
                 Assert.Equal(0, bookingsCountFromDb);
             }
