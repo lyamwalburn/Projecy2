@@ -11,13 +11,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using System.Net;
 
-namespace EstateAgentUnitTests
+namespace EstateAgentUnitTests.ControllerTests
 {
-    public class BookingUnitTests
+    public class BookingControllerUnitTests
     {
         private Mapper _mapper;
 
-        public BookingUnitTests()
+        public BookingControllerUnitTests()
         {
             TPCAutoMapper myProfile = new TPCAutoMapper();
             MapperConfiguration configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
@@ -44,7 +44,7 @@ namespace EstateAgentUnitTests
                 Id = id,
                 BuyerId = 100,
                 PropertyId = 100,
-                Time = new DateTime(2000,01,30)
+                Time = new DateTime(2000, 01, 30)
             };
         }
 
@@ -52,7 +52,7 @@ namespace EstateAgentUnitTests
         public void TestAddBooking()
         {
             var services = GetBookingServiceProvider();
-            using(var scope = services.CreateScope())
+            using (var scope = services.CreateScope())
             {
                 var repo = scope.ServiceProvider.GetService<IBookingRepository>();
                 var service = new BookingService(repo, _mapper);
@@ -60,13 +60,13 @@ namespace EstateAgentUnitTests
                 var controller = new BookingController(service);
 
                 context.Database.EnsureDeleted();            // ensure database is empty
-                controller.AddBooking(GetMockBookingDTO(100));  
-                var booking = context.Bookings.Single();     
+                controller.AddBooking(GetMockBookingDTO(100));
+                var booking = context.Bookings.Single();
 
                 Assert.Equal(100, booking.Id);
                 Assert.Equal(100, booking.BuyerId);
                 Assert.Equal(100, booking.PropertyId);
-                Assert.Equal(new DateTime(2000, 01, 30), booking.Time); 
+                Assert.Equal(new DateTime(2000, 01, 30), booking.Time);
             }
         }
 
@@ -82,7 +82,7 @@ namespace EstateAgentUnitTests
                 var context = scope.ServiceProvider.GetService<EstateAgentContext>();
                 var controller = new BookingController(service);
 
-                context.Database.EnsureDeleted();            
+                context.Database.EnsureDeleted();
                 controller.AddBooking(GetMockBookingDTO(10));    // TestAddBooking() must pass for this one to pass
                 controller.AddBooking(GetMockBookingDTO(100));
 
@@ -107,7 +107,7 @@ namespace EstateAgentUnitTests
                 var context = scope.ServiceProvider.GetService<EstateAgentContext>();
                 var controller = new BookingController(service);
 
-                context.Database.EnsureDeleted();       
+                context.Database.EnsureDeleted();
                 var mockBookingDTO = GetMockBookingDTO(100);
                 controller.AddBooking(mockBookingDTO);     // TestAddBooking() must pass for this one to pass
 
@@ -142,7 +142,7 @@ namespace EstateAgentUnitTests
                 Assert.True(updatedBookingFromDb.Equals(mockBookingDTO));   // checks they have the same ID
                 Assert.Equal(300, updatedBookingFromDb.BuyerId);
                 Assert.Equal(300, updatedBookingFromDb.PropertyId);
-                Assert.Equal(new DateTime(2024, 01, 30), updatedBookingFromDb.Time);         
+                Assert.Equal(new DateTime(2024, 01, 30), updatedBookingFromDb.Time);
             }
         }
 
@@ -243,5 +243,5 @@ namespace EstateAgentUnitTests
                 Assert.Equal(HttpStatusCode.NotFound, actionResult);
             }
         }
-    }  
+    }
 }
