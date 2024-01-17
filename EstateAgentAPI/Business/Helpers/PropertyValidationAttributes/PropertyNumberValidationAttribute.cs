@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EstateAgentAPI.Business.Helpers.SellerValidationAttributes
 {
-    public class SellerNameValidationAttribute : ValidationAttribute
+    public class PropertyNumberValidationAttribute : ValidationAttribute
     {
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
@@ -13,26 +13,23 @@ namespace EstateAgentAPI.Business.Helpers.SellerValidationAttributes
             if (value != null)
             {
 
-                string firstName = value.ToString();
-                string lastName = value.ToString();
+                int number=  (int) value;
+                
 
-                if (!IsAlphabetical(firstName) && !IsAlphabetical(lastName))
+                if (number < 1 )
                 {
-                    return new ValidationResult(ErrorMessage ?? "Name should consists of alphabets");
+                    return new ValidationResult(ErrorMessage ?? "Bathroom/Bedroom can't be less than 1");
                 }
-
             }
+
 
             return ValidationResult.Success;
 
         }
-        private bool IsAlphabetical(string name)
-        {
-            return name.All(char.IsLetter);
-
-        }
-
-
         
+
+
+
+
     }
 }

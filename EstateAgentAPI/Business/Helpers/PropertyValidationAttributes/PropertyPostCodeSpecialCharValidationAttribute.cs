@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EstateAgentAPI.Business.Helpers.SellerValidationAttributes
 {
-    public class SellerNameValidationAttribute : ValidationAttribute
+    public class BuyerPostCodeSpecialCharValidationAttribute : ValidationAttribute
     {
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
@@ -13,26 +13,25 @@ namespace EstateAgentAPI.Business.Helpers.SellerValidationAttributes
             if (value != null)
             {
 
-                string firstName = value.ToString();
-                string lastName = value.ToString();
+                string postcode = value.ToString();
 
-                if (!IsAlphabetical(firstName) && !IsAlphabetical(lastName))
+                if (ContainsSpecialCharacters(postcode))
                 {
-                    return new ValidationResult(ErrorMessage ?? "Name should consists of alphabets");
+                    return new ValidationResult(ErrorMessage ?? "Postcode shouldn't consists of special characters");
                 }
-
             }
+
 
             return ValidationResult.Success;
 
         }
-        private bool IsAlphabetical(string name)
-        {
-            return name.All(char.IsLetter);
 
+        private bool ContainsSpecialCharacters(string postcode)
+        {
+            return postcode.Any(c => !char.IsLetterOrDigit(c) && !
+            char.IsWhiteSpace(c));
         }
 
 
-        
     }
 }

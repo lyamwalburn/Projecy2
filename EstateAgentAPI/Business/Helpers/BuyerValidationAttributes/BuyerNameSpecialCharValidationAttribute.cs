@@ -2,9 +2,9 @@
 using EstateAgentAPI.Persistence.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace EstateAgentAPI.Business.Helpers.SellerValidationAttributes
+namespace EstateAgentAPI.Buisness.Helpers.BuyerValidationAttributes
 {
-    public class SellerNameSpecialCharValidationAttribute : ValidationAttribute
+    public class BuyerNameSpecialCharValidationAttribute : ValidationAttribute
     {
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
@@ -25,9 +25,9 @@ namespace EstateAgentAPI.Business.Helpers.SellerValidationAttributes
 
         }
 
-        private bool ContainsSpecialCharacters(string sellerName)
+        private bool ContainsSpecialCharacters(string buyerName)
         {
-            return sellerName.Any(c => !char.IsLetterOrDigit(c) && !
+            return buyerName.Any(c => !char.IsLetterOrDigit(c) && !
             char.IsWhiteSpace(c));
         }
 

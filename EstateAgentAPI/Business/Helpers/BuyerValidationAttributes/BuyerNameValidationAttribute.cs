@@ -2,9 +2,9 @@
 using EstateAgentAPI.Persistence.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace EstateAgentAPI.Business.Helpers.SellerValidationAttributes
+namespace EstateAgentAPI.Buisness.Helpers.BuyerValidationAttributes
 {
-    public class SellerNameValidationAttribute : ValidationAttribute
+    public class BuyerNameValidationAttribute : ValidationAttribute
     {
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
