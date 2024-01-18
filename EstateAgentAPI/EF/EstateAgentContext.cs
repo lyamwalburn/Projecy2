@@ -36,7 +36,7 @@ namespace EstateAgentAPI.EF
                 entity.Property(e => e.FirstName).HasColumnName("FIRST_NAME");
                 entity.Property(e => e.Surname).HasColumnName("SURNAME");
                 entity.Property(e => e.Address).HasColumnName("ADDRESS");
-                entity.Property(e => e.Postcode).HasColumnName("POSTCODE");
+                entity.Property(e => e.PostCode).HasColumnName("POSTCODE");
                 entity.Property(e => e.Phone).HasColumnName("PHONE");
             });
 
@@ -55,7 +55,7 @@ namespace EstateAgentAPI.EF
                 entity.Property(e => e.Address)
                    .HasMaxLength(255)
                    .HasColumnName("ADDRESS");
-                entity.Property(e => e.Postcode)
+                entity.Property(e => e.PostCode)
                    .HasMaxLength(255)
                    .HasColumnName("POSTCODE");
                 entity.Property(e => e.Phone)

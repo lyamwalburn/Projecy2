@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using EstateAgentAPI.Buisness.DTO;
 using EstateAgentAPI.Business.DTO;
 using EstateAgentAPI.Persistence.Models;
 
-namespace EstateAgentAPI.Buisness.Services
+namespace EstateAgentAPI.Business.Services
 {
     public class TPCAutoMapper:Profile
     {

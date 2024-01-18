@@ -1,7 +1,8 @@
 ﻿
-using EstateAgentAPI.Buisness.DTO;
 using EstateAgentAPI.Business.DTO;
 using EstateAgentAPI.Business.Services;
+using EstateAgentAPI.EF;
+using EstateAgentAPI.Persistence.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -15,9 +16,12 @@ namespace EstateAgentAPI.Controllers
     public class SellerController : ControllerBase
     {
         ISellerService _sellerService;
-        public SellerController(ISellerService service)
+        EstateAgentContext _dbContext;
+        public SellerController(ISellerService service, EstateAgentContext dbContext)
         {
             _sellerService = service;
+            _dbContext = dbContext;
+
         }
 
         [HttpGet]
@@ -32,14 +36,25 @@ namespace EstateAgentAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<SellerDTO> GetById(int id)
         {
+            var IsSellerIdExists = _dbContext.Sellers.Any(b => b.Id == id);
+            if (!IsSellerIdExists) { ModelState.AddModelError("SellerId", "Seller not found"); return NotFound(ModelState); }
+        
             var seller = _sellerService.FindById(id);
-            return seller == null ? NotFound() : seller;
-        }
-        [HttpPost]
-        public SellerDTO AddSeller(SellerDTO seller)
-        {
-            seller = _sellerService.Create(seller);
             return seller;
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<SellerDTO> AddSeller(SellerDTO seller)
+        {
+            var IsFirstNameExists= _dbContext.Sellers.Any(b => b.FirstName == seller.FirstName);
+
+            var IsLastNameExists = _dbContext.Sellers.Any(b => b.Surname == seller.Surname);
+            if (IsFirstNameExists && IsLastNameExists) { ModelState.AddModelError("Seller", "Seller already exists"); return BadRequest(ModelState); }
+
+            seller = _sellerService.Create(seller);
+            return Ok(seller);
         }
 
         [HttpPut("{id}")]
@@ -49,7 +64,8 @@ namespace EstateAgentAPI.Controllers
         {
             seller = _sellerService.Update(seller);
             if (seller == null) return NotFound();
-            return seller;
+            return Ok(seller);
+            //return seller;
         }
 
         [HttpDelete("{id}")]
