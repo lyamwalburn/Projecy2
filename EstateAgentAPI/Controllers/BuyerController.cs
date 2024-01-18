@@ -1,5 +1,6 @@
 ﻿using EstateAgentAPI.Buisness.DTO;
 using EstateAgentAPI.Buisness.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -7,6 +8,7 @@ namespace EstateAgentAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class BuyerController : Controller
     {
         private IBuyerService _buyerService;

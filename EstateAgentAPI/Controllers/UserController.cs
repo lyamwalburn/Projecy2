@@ -7,22 +7,30 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using EstateAgentAPI.WebApi.Models;
 
-namespace EstateAgentAPI.WebApi.Controllers
+
+using EstateAgentAPI.Buisness.DTO;
+using EstateAgentAPI.Buisness.Services;
+
+using System.Net;
+
+
+namespace EstateAgentAPI.Controllers
 {
-    [Route("api/user")]
+    [Route("[controller]")]
     [ApiController]
     //[EnableCors(""_myAllowSpecificOrigins"")]
     public class UserController : ControllerBase
     {
         public IConfiguration _configuration;
         private readonly EstateAgentContext _context;
+        IUserService _userService;
 
-        public UserController(IConfiguration config, EstateAgentContext context)
+        public UserController(IConfiguration config, EstateAgentContext context, IUserService userService)
         {
             _configuration = config;
             _context = context;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -86,6 +94,51 @@ namespace EstateAgentAPI.WebApi.Controllers
             public string UserId { get; set; }
             public string AuthorizationToken { get; set; }
             public string RefreshToken { get; set; }
+        }
+
+
+        [HttpGet]
+        public IEnumerable<UserDTO> Index()
+        {
+            var users = _userService.FindAll().ToList();
+            return users;
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<UserDTO> GetById(int id)
+        {
+            var user = _userService.FindById(id);
+            return user == null ? NotFound() : user;
+        }
+        [HttpPost]
+        public UserDTO AddUser(UserDTO user)
+        {
+            user = _userService.Create(user);
+            return user;
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<UserDTO> UpdateUser(UserDTO user)
+        {
+            user = _userService.Update(user);
+            if (user == null) return NotFound();
+            return user;
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public HttpStatusCode DeleteUser(int id)
+        {
+            var user = _userService.FindById(id);
+            if (user == null)
+                return HttpStatusCode.NotFound;
+            _userService.Delete(user);
+            return HttpStatusCode.NoContent;
         }
 
     }

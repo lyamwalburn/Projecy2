@@ -1,4 +1,4 @@
-﻿using EstateAgentAPI.WebApi.Models;
+﻿
 using EstateAgentAPI.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
