@@ -32,13 +32,15 @@ namespace EstateAgentAPI.Controllers
         public ActionResult<BuyerDTO> GetById(int id)
         {
             var IsBuyerIdExists = _dbContext.Buyers.Any(b => b.Id == id);
-            if (!IsBuyerIdExists) { ModelState.AddModelError("BuyerId", "Buyer not found"); return BadRequest(ModelState); }
+            if (!IsBuyerIdExists) { ModelState.AddModelError("BuyerId", "Buyer not found"); return NotFound(ModelState); }
 
             var buyer = _buyerService.FindById(id);
-            return buyer == null ? NotFound() : buyer;
+            return buyer;
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<BuyerDTO> AddBuyer(BuyerDTO buyer) {
             var IsFirstNameExists = _dbContext.Buyers.Any(b => b.FirstName == buyer.FirstName);
 

@@ -39,6 +39,8 @@ namespace EstateAgentAPI.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<BookingDTO> AddBooking(BookingDTO booking)
         {
             var IsPropertyIdExists = _dbContext.Bookings.Any(b => b.PropertyId == booking.PropertyId);

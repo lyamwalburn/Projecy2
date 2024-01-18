@@ -34,7 +34,7 @@ namespace EstateAgentUnitTests.ControllerTests
             _repo2 = scope.ServiceProvider.GetService<IBookingRepository>();
             _service = new PropertyService(_repo, _repo2, _mapper);
             _context = scope.ServiceProvider.GetService<EstateAgentContext>();
-            _controller = new PropertyController(_service);
+            _controller = new PropertyController(_service,_context);
         }
 
         private IServiceProvider GetPropertyServiceProvider()
@@ -174,7 +174,7 @@ namespace EstateAgentUnitTests.ControllerTests
         }
 
         [Fact]
-        public void TestPutProperty()
+        public void TestUpdateProperty()
         {
             var services = GetPropertyServiceProvider();
             using (var scope = services.CreateScope())

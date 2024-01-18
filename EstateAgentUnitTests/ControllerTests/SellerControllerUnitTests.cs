@@ -36,7 +36,7 @@ namespace EstateAgentUnitTests.ControllerTests
             _repo2 = scope.ServiceProvider.GetService<IPropertyRepository>();
             _service = new SellerService(_repo, _repo2, _mapper);
             _context = scope.ServiceProvider.GetService<EstateAgentContext>();
-            _controller = new SellerController(_service);
+            _controller = new SellerController(_service,_context);
 
         }
 
@@ -120,7 +120,7 @@ namespace EstateAgentUnitTests.ControllerTests
         }
 
         [Fact]
-        public void TestPutSeller()
+        public void TestUpdateSeller()
         {
             var services = GetSellerServiceProivder();
             using (var scope = services.CreateScope())
@@ -219,7 +219,7 @@ namespace EstateAgentUnitTests.ControllerTests
 
                 var actionResult = _controller.GetById(99);
 
-                var result = actionResult.Result as NotFoundResult;
+                var result = actionResult.Result as NotFoundObjectResult;
                 Assert.NotNull(result);
                 Assert.Equal(404, result.StatusCode);
             }

@@ -34,7 +34,7 @@ namespace EstateAgentUnitTests.ServiceTests
             _repo2 = scope.ServiceProvider.GetService<IBookingRepository>();
             _service = new BuyerService(_repo, _repo2, _mapper);
             _context = scope.ServiceProvider.GetService<EstateAgentContext>();
-            _controller = new BuyerController(_service);
+            _controller = new BuyerController(_service,_context);
         }
 
         private IServiceProvider GetBuyerServiceProvider()
@@ -63,6 +63,18 @@ namespace EstateAgentUnitTests.ServiceTests
                 Phone = "00440000000000"
             };
         }
+        private BuyerDTO CreateMockBuyerDTO2()
+        {
+            return new BuyerDTO
+            {
+                Id = 2,
+                FirstName = "Peter",
+                Surname = "Behague",
+                Address = "1 Kent Road",
+                PostCode = "DEF456",
+                Phone = "00440000000001"
+            };
+        }
 
 
 
@@ -78,8 +90,7 @@ namespace EstateAgentUnitTests.ServiceTests
                 //add 2 buyers to db
                 var mock1 = CreateMockBuyerDTO();
                 _controller.AddBuyer(mock1);
-                var mock2 = CreateMockBuyerDTO();
-                mock2.Id = 2;
+                var mock2 = CreateMockBuyerDTO2();
                 _controller.AddBuyer(mock2);
                 //do FindAll() to get from db
                 var buyersFromDb = _service.FindAll().AsEnumerable();

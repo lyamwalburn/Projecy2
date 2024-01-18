@@ -18,8 +18,7 @@ namespace EstateAgentAPI.Business.DTO
         [Required(ErrorMessage = "PostCode Required")]
         [BuyerPostCodeSpecialCharValidation]
         public string? PostCode { get; set; }
-        [Required(ErrorMessage = "Type Required")]
-
+        [Required(ErrorMessage = "Property Type Required")]
         [PropertyTypeValidation]
         public string? Type { get; set; }
         [Required(ErrorMessage = "Number of Bedrooms  Required")]
@@ -28,7 +27,7 @@ namespace EstateAgentAPI.Business.DTO
         [Required(ErrorMessage = "Number of Bathrooms  Required")]
         [PropertyNumberValidation]
         public int? NumberOfBathrooms { get; set; }
-
+        [Required(ErrorMessage = "Garden option must be selected")]
         public bool? Garden { get; set; }
         [Required(ErrorMessage = "Price Required")]
         public decimal? Price { get; set; }
@@ -36,7 +35,7 @@ namespace EstateAgentAPI.Business.DTO
         public string? Status { get; set; }
         [Required(ErrorMessage = "SellerId Is Required")]
         public int? SellerId { get; set; }
-        [Required(ErrorMessage = "BuyerId Is Required")]
+       // [Required(ErrorMessage = "BuyerId Is Required")]
         public int? BuyerId { get; set; }
 
         public bool Equals(PropertyDTO? other)

@@ -35,12 +35,15 @@ namespace EstateAgentAPI.Controllers
         public ActionResult<SellerDTO> GetById(int id)
         {
             var IsSellerIdExists = _dbContext.Sellers.Any(b => b.Id == id);
-            if (!IsSellerIdExists) { ModelState.AddModelError("SellerId", "Seller not found"); return BadRequest(ModelState); }
+            if (!IsSellerIdExists) { ModelState.AddModelError("SellerId", "Seller not found"); return NotFound(ModelState); }
         
-        var seller = _sellerService.FindById(id);
-            return seller == null ? NotFound() : seller;
+            var seller = _sellerService.FindById(id);
+            return seller;
         }
+
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<SellerDTO> AddSeller(SellerDTO seller)
         {
             var IsFirstNameExists= _dbContext.Sellers.Any(b => b.FirstName == seller.FirstName);
@@ -49,7 +52,7 @@ namespace EstateAgentAPI.Controllers
             if (IsFirstNameExists && IsLastNameExists) { ModelState.AddModelError("Seller", "Seller already exists"); return BadRequest(ModelState); }
 
             seller = _sellerService.Create(seller);
-            return seller;
+            return Ok(seller);
         }
 
         [HttpPut("{id}")]
@@ -59,7 +62,8 @@ namespace EstateAgentAPI.Controllers
         {
             seller = _sellerService.Update(seller);
             if (seller == null) return NotFound();
-            return seller;
+            return Ok(seller);
+            //return seller;
         }
 
         [HttpDelete("{id}")]
