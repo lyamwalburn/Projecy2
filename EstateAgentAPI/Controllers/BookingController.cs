@@ -2,8 +2,10 @@
 using EstateAgentAPI.Business.Services;
 using EstateAgentAPI.EF;
 using EstateAgentAPI.Persistence.Models;
+using Itenso.TimePeriod;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Runtime.Serialization;
 
 namespace EstateAgentAPI.Controllers
 {
@@ -41,9 +43,32 @@ namespace EstateAgentAPI.Controllers
         {
             var IsPropertyIdExists = _dbContext.Bookings.Any(b => b.PropertyId == booking.PropertyId);
               var IsBuyerIdExists= _dbContext.Bookings.Any(b=> b.BuyerId == booking.BuyerId);
-              var dateTimeCheck = _dbContext.Bookings.Any(b => b.Time == booking.Time);
-            if(booking == null) { return BadRequest(); }
-            if (IsPropertyIdExists && IsBuyerIdExists && dateTimeCheck) { ModelState.AddModelError("PropertyId", "time slot already booked"); return BadRequest(ModelState);  }
+            var IfBuyerNotExists = _dbContext.Bookings.Any(b=> b.BuyerId != booking.BuyerId);
+
+           //DateTime bookingTime = (DateTime)booking.Time;
+        //   int bookingHour= bookingTime.Hour;
+           // var dateTimeCheck = _dbContext.Bookings.Any(b => b.Time == booking.Time);
+           
+           
+          
+           if(booking == null) { return BadRequest(); }
+            if (IsPropertyIdExists)
+            {
+                var dateTimeCheck = _dbContext.Bookings.Any(b => b.Time == booking.Time);
+                if (dateTimeCheck)
+                {
+                    ModelState.AddModelError("PropertyId", "property time slot already booked"); return BadRequest(ModelState);
+                }else if (IsBuyerIdExists)
+                {
+                    var dateTimeCheckforBuyer = _dbContext.Bookings.Any(b => b.Time == booking.Time);
+                    if (dateTimeCheckforBuyer)
+                    {
+                        ModelState.AddModelError("PropertyId", "Buyer time slot already booked"); return BadRequest(ModelState);
+                    }
+                }
+  
+            }
+           
             
             booking = _bookingService.Create(booking);
             return booking;
@@ -71,6 +96,8 @@ namespace EstateAgentAPI.Controllers
             _bookingService.Delete(booking);
             return HttpStatusCode.NoContent;
         }
+
+        
 
 
     }
