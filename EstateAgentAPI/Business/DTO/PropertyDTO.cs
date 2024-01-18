@@ -35,7 +35,7 @@ namespace EstateAgentAPI.Business.DTO
         public string? Status { get; set; }
         [Required(ErrorMessage = "SellerId Is Required")]
         public int? SellerId { get; set; }
-        [Required(ErrorMessage = "BuyerId Is Required")]
+       // [Required(ErrorMessage = "BuyerId Is Required")]
         public int? BuyerId { get; set; }
 
         public bool Equals(PropertyDTO? other)
