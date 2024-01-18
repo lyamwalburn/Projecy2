@@ -2,6 +2,7 @@
 using EstateAgentAPI.Business.Services;
 using EstateAgentAPI.EF;
 using EstateAgentAPI.Persistence.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -26,6 +27,7 @@ namespace EstateAgentAPI.Controllers
             return properties;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -35,6 +37,7 @@ namespace EstateAgentAPI.Controllers
             return property == null ? NotFound() : property;
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult<PropertyDTO> AddProperty(PropertyDTO property)
         {
@@ -43,6 +46,7 @@ namespace EstateAgentAPI.Controllers
             return property;
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -55,6 +59,7 @@ namespace EstateAgentAPI.Controllers
             return property;
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -75,6 +80,7 @@ namespace EstateAgentAPI.Controllers
             }
 
 
+        [Authorize]
         // functionality based on property status
         [Route("sell/{id}")]
         [HttpPatch]
@@ -87,6 +93,7 @@ namespace EstateAgentAPI.Controllers
             return property;
         }
 
+        [Authorize]
         [Route("withdraw/{id}")]
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -98,6 +105,8 @@ namespace EstateAgentAPI.Controllers
             return property;
         }
 
+
+        [Authorize]
         [Route("relist/{id}")]
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
