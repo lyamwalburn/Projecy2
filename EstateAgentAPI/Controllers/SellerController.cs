@@ -49,7 +49,7 @@ namespace EstateAgentAPI.Controllers
             if (IsFirstNameExists && IsLastNameExists) { ModelState.AddModelError("Seller", "Seller already exists"); return BadRequest(ModelState); }
 
             seller = _sellerService.Create(seller);
-            return seller;
+            return Ok(seller);
         }
 
         [HttpPut("{id}")]
@@ -59,7 +59,8 @@ namespace EstateAgentAPI.Controllers
         {
             seller = _sellerService.Update(seller);
             if (seller == null) return NotFound();
-            return seller;
+            return Ok(seller);
+            //return seller;
         }
 
         [HttpDelete("{id}")]
