@@ -37,11 +37,13 @@ namespace EstateAgentAPI.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<BookingDTO> AddBooking(BookingDTO booking)
         {
             var IsPropertyIdExists = _dbContext.Bookings.Any(b => b.PropertyId == booking.PropertyId);
-              var IsBuyerIdExists= _dbContext.Bookings.Any(b=> b.BuyerId == booking.BuyerId);
-              var dateTimeCheck = _dbContext.Bookings.Any(b => b.Time == booking.Time);
+            var IsBuyerIdExists= _dbContext.Bookings.Any(b=> b.BuyerId == booking.BuyerId);
+            var dateTimeCheck = _dbContext.Bookings.Any(b => b.Time == booking.Time);
             if(booking == null) { return BadRequest(); }
             if (IsPropertyIdExists && IsBuyerIdExists && dateTimeCheck) { ModelState.AddModelError("PropertyId", "time slot already booked"); return BadRequest(ModelState);  }
             

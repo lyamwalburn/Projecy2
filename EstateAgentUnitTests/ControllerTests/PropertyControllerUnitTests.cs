@@ -174,7 +174,7 @@ namespace EstateAgentUnitTests.ControllerTests
         }
 
         [Fact]
-        public void TestPutProperty()
+        public void TestUpdateProperty()
         {
             var services = GetPropertyServiceProvider();
             using (var scope = services.CreateScope())

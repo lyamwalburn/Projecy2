@@ -59,8 +59,20 @@ namespace EstateAgentUnitTests.ServiceTests
                 FirstName = "Christian",
                 Surname = "Savage",
                 Address = "1 Dundee Road",
-                PostCode = "ABC 123",
+                PostCode = "ABC123",
                 Phone = "00440000000000"
+            };
+        }
+        private SellerDTO CreateMockSellerDTO2()
+        {
+            return new SellerDTO
+            {
+                Id = 2,
+                FirstName = "Peter",
+                Surname = "Behague",
+                Address = "1 Kent Road",
+                PostCode = "DEF456",
+                Phone = "00440000000001"
             };
         }
 
@@ -77,8 +89,7 @@ namespace EstateAgentUnitTests.ServiceTests
                 //add 2 sellers to db
                 var mock1 = CreateMockSellerDTO();
                 _controller.AddSeller(mock1);
-                var mock2 = CreateMockSellerDTO();
-                mock2.Id = 2;
+                var mock2 = CreateMockSellerDTO2();
                 _controller.AddSeller(mock2);
                 //do FindAll() to get from db
                 var sellersFromDb = _service.FindAll().AsEnumerable();

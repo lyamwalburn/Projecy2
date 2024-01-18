@@ -47,6 +47,16 @@ namespace EstateAgentUnitTests.ControllerTests
                 Time = new DateTime(2000, 01, 30)
             };
         }
+        private BookingDTO GetMockBookingDTO2(int id)
+        {
+            return new BookingDTO
+            {
+                Id = id,
+                BuyerId = 101,
+                PropertyId = 101,
+                Time = new DateTime(2024, 01, 30)
+            };
+        }
 
         [Fact]
         public void TestAddBooking()
@@ -84,7 +94,7 @@ namespace EstateAgentUnitTests.ControllerTests
 
                 context.Database.EnsureDeleted();
                 controller.AddBooking(GetMockBookingDTO(10));    // TestAddBooking() must pass for this one to pass
-                controller.AddBooking(GetMockBookingDTO(100));
+                controller.AddBooking(GetMockBookingDTO2(100));
 
                 var bookingsFromDb = controller.Index();
                 var booking1 = bookingsFromDb.First();

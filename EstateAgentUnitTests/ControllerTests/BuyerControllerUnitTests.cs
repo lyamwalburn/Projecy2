@@ -120,7 +120,7 @@ namespace EstateAgentUnitTests.ControllerTests
         }
 
         [Fact]
-        public void TestPutBuyer()
+        public void TestUpdateBuyer()
         {
             var services = GetBuyerServiceProivder();
             using (var scope = services.CreateScope())
@@ -219,7 +219,8 @@ namespace EstateAgentUnitTests.ControllerTests
 
                 var actionResult = _controller.GetById(99);
 
-                var result = actionResult.Result as NotFoundResult;
+                var result = actionResult.Result as NotFoundObjectResult;
+
                 Assert.NotNull(result);
                 Assert.Equal(404, result.StatusCode);
             }
