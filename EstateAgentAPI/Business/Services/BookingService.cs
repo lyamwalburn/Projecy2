@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using EstateAgentAPI.Buisness.DTO;
+using EstateAgentAPI.Business.DTO;
 using EstateAgentAPI.Persistence.Models;
 using EstateAgentAPI.Persistence.Repositories;
 
-namespace EstateAgentAPI.Buisness.Services
+namespace EstateAgentAPI.Business.Services
 {
     public class BookingService : IBookingService
     {

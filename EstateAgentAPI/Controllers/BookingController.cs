@@ -1,8 +1,11 @@
-﻿using EstateAgentAPI.Buisness.DTO;
-using EstateAgentAPI.Buisness.Services;
+﻿using EstateAgentAPI.Business.DTO;
+using EstateAgentAPI.Business.Services;
+using EstateAgentAPI.EF;
 using EstateAgentAPI.Persistence.Models;
+using Itenso.TimePeriod;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Runtime.Serialization;
 
 namespace EstateAgentAPI.Controllers
 {
@@ -11,9 +14,12 @@ namespace EstateAgentAPI.Controllers
     public class BookingController : Controller
     {
         private IBookingService _bookingService;
-        public BookingController(IBookingService bookingService)
+        private EstateAgentContext _dbContext;
+        public BookingController(IBookingService bookingService, EstateAgentContext dbContext)
         {
             _bookingService = bookingService;
+            _dbContext = dbContext;
+            
         }
 
         [HttpGet]
@@ -33,18 +39,51 @@ namespace EstateAgentAPI.Controllers
         }
 
         [HttpPost]
-        public BookingDTO AddBooking(BookingDTO booking)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<BookingDTO> AddBooking(BookingDTO booking)
         {
+            var IsPropertyIdExists = _dbContext.Bookings.Any(b => b.PropertyId == booking.PropertyId);
+              var IsBuyerIdExists= _dbContext.Bookings.Any(b=> b.BuyerId == booking.BuyerId);
+            var IfBuyerNotExists = _dbContext.Bookings.Any(b=> b.BuyerId != booking.BuyerId);
+
+           //DateTime bookingTime = (DateTime)booking.Time;
+        //   int bookingHour= bookingTime.Hour;
+           // var dateTimeCheck = _dbContext.Bookings.Any(b => b.Time == booking.Time);
+           
+           
+          
+           if(booking == null) { return BadRequest(); }
+            if (IsPropertyIdExists)
+            {
+                var dateTimeCheck = _dbContext.Bookings.Any(b => b.Time == booking.Time);
+                if (dateTimeCheck)
+                {
+                    ModelState.AddModelError("PropertyId", "property time slot already booked"); return BadRequest(ModelState);
+                } 
+            }
+            if (IsBuyerIdExists)
+            {
+                var dateTimeCheckforBuyer = _dbContext.Bookings.Any(b => b.Time == booking.Time);
+                if (dateTimeCheckforBuyer)
+                {
+                    ModelState.AddModelError("PropertyId", "Buyer time slot already booked"); return BadRequest(ModelState);
+                }
+            }
+
+
             booking = _bookingService.Create(booking);
             return booking;
+        
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<BookingDTO> UpdateBuyer(BookingDTO booking)
+        public ActionResult<BookingDTO> UpdateBooking(BookingDTO booking)
         {
             booking = _bookingService.Update(booking);
+            if (booking == null) return NotFound();
             return booking;
         }
 
@@ -59,6 +98,8 @@ namespace EstateAgentAPI.Controllers
             _bookingService.Delete(booking);
             return HttpStatusCode.NoContent;
         }
+
+        
 
 
     }

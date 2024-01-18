@@ -1,6 +1,6 @@
-﻿using EstateAgentAPI.Buisness.DTO;
+﻿using EstateAgentAPI.Business.DTO;
 
-namespace EstateAgentAPI.Buisness.Services
+namespace EstateAgentAPI.Business.Services
 {
     public interface IPropertyService
     {
@@ -9,5 +9,8 @@ namespace EstateAgentAPI.Buisness.Services
         PropertyDTO Create(PropertyDTO entity);
         PropertyDTO Update(PropertyDTO entity);
         void Delete(PropertyDTO entity);
+        PropertyDTO SellProperty(PropertyDTO property);
+        PropertyDTO WithdrawProperty(int propertyId);
+        PropertyDTO RelistWithdrawnProperty(int propertyId);
     }
 }

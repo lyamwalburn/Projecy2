@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using EstateAgentAPI.Buisness.DTO;
 using EstateAgentAPI.Business.DTO;
-using EstateAgentAPI.Business.Services;
 using EstateAgentAPI.Persistence.Models;
 using EstateAgentAPI.Persistence.Repositories;
 using System;
@@ -10,14 +8,14 @@ namespace EstateAgentAPI.Business.Services
 {
     public class SellerService : ISellerService
     {
-
-
         ISellerRepository _sellerRepository;
+        IPropertyRepository _propertyRepository;
         private IMapper _mapper;
 
-        public SellerService(ISellerRepository repository, IMapper mapper)
+        public SellerService(ISellerRepository sellerRepository, IPropertyRepository propertyRepository, IMapper mapper)
         {
-            _sellerRepository = repository;
+            _sellerRepository = sellerRepository;
+            _propertyRepository = propertyRepository;
             _mapper = mapper;
         }
 
@@ -32,6 +30,17 @@ namespace EstateAgentAPI.Business.Services
         public void Delete(SellerDTO dtoSeller)
         {
             Seller seller = _mapper.Map<Seller>(dtoSeller);
+
+            //remove all properties which have a matching sellerId
+            var properties = _propertyRepository.FindAll().ToList();
+            foreach (Property property in properties)
+            {
+                if (property.SellerId == seller.Id)
+                {
+                    _propertyRepository.Delete(property);
+                }
+            }
+
             _sellerRepository.Delete(seller);
         }
 
@@ -63,7 +72,7 @@ namespace EstateAgentAPI.Business.Services
             sel.FirstName = sellerData.FirstName;
             sel.Surname = sellerData.Surname;
             sel.Address = sellerData.Address;
-            sel.Postcode = sellerData.Postcode;
+            sel.PostCode = sellerData.PostCode;
             sel.Phone = sellerData.Phone;
 
             Seller seller = _sellerRepository.Update(sel);
