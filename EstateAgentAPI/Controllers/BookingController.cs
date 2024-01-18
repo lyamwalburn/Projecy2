@@ -60,18 +60,18 @@ namespace EstateAgentAPI.Controllers
                 if (dateTimeCheck)
                 {
                     ModelState.AddModelError("PropertyId", "property time slot already booked"); return BadRequest(ModelState);
-                }else if (IsBuyerIdExists)
-                {
-                    var dateTimeCheckforBuyer = _dbContext.Bookings.Any(b => b.Time == booking.Time);
-                    if (dateTimeCheckforBuyer)
-                    {
-                        ModelState.AddModelError("PropertyId", "Buyer time slot already booked"); return BadRequest(ModelState);
-                    }
-                }
-  
+                } 
             }
-           
-            
+            if (IsBuyerIdExists)
+            {
+                var dateTimeCheckforBuyer = _dbContext.Bookings.Any(b => b.Time == booking.Time);
+                if (dateTimeCheckforBuyer)
+                {
+                    ModelState.AddModelError("PropertyId", "Buyer time slot already booked"); return BadRequest(ModelState);
+                }
+            }
+
+
             booking = _bookingService.Create(booking);
             return booking;
         
