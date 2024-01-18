@@ -9,8 +9,8 @@ using System.Security.Claims;
 using System.Text;
 
 
-using EstateAgentAPI.Buisness.DTO;
-using EstateAgentAPI.Buisness.Services;
+using EstateAgentAPI.Business.DTO;
+using EstateAgentAPI.Business.Services;
 
 using System.Net;
 
