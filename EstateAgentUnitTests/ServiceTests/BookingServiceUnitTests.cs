@@ -53,9 +53,21 @@ namespace EstateAgentUnitTests.ServiceTests
             return new BookingDTO
             {
                 Id = 1,
+                BuyerId = 1,
                 BookingId = 1,
                 PropertyId = 1,
                 Time = new DateTime(2000, 01, 30)
+            };
+        }
+        private BookingDTO CreateMockBookingDTO2()
+        {
+            return new BookingDTO
+            {
+                Id = 2,
+                BuyerId = 2,
+                BookingId = 2,
+                PropertyId = 2,
+                Time = new DateTime(2024, 01, 30)
             };
         }
 
@@ -73,8 +85,7 @@ namespace EstateAgentUnitTests.ServiceTests
                 //add 2 bookings to db
                 var mock1 = CreateMockBookingDTO();
                 _controller.AddBooking(mock1);
-                var mock2 = CreateMockBookingDTO();
-                mock2.Id = 2;
+                var mock2 = CreateMockBookingDTO2();
                 _controller.AddBooking(mock2);
                 //do FindAll() to get from db
                 var bookingsFromDb = _service.FindAll().AsEnumerable();

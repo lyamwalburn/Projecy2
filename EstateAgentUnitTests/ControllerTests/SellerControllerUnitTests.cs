@@ -40,7 +40,7 @@ namespace EstateAgentUnitTests.ControllerTests
 
         }
 
-        private IServiceProvider GetSellerServiceProivder()
+        private IServiceProvider GetSellerServiceProvider()
         {
             ServiceCollection services = new ServiceCollection();
 
@@ -70,7 +70,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void TestAddSeller()
         {
-            var services = GetSellerServiceProivder();
+            var services = GetSellerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -99,7 +99,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void TestGetSeller()
         {
-            var services = GetSellerServiceProivder();
+            var services = GetSellerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -122,7 +122,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void TestUpdateSeller()
         {
-            var services = GetSellerServiceProivder();
+            var services = GetSellerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -156,7 +156,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void TestDeleteSeller()
         {
-            var services = GetSellerServiceProivder();
+            var services = GetSellerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -175,9 +175,46 @@ namespace EstateAgentUnitTests.ControllerTests
         }
 
         [Fact]
+        public void TestDeleteRemovesProperties()
+        {
+            var services = GetSellerServiceProvider();
+            using (var scope = services.CreateScope())
+            {
+                Setup(scope);
+                //empty db
+                _context.Database.EnsureDeleted();
+                //add mock seller to db with sellerId=1
+                var mockSeller = GetMockSeller();
+                mockSeller.Id = 1;
+                _controller.AddSeller(mockSeller);
+                //add mock property to db with sellerId=1
+                Property mockProperty = new Property
+                {
+                    Id = 1,
+                    Address = "testaddress",
+                    PostCode = "testpostcode",
+                    Type = "apartment",
+                    NumberOfBedrooms = 1,
+                    NumberOfBathrooms = 2,
+                    Garden = true,
+                    Price = 1000,
+                    Status = "SOLD",
+                    SellerId = 1,
+                    BuyerId = 4
+                };
+                _context.Properties.Add(mockProperty);
+                //delete seller
+                _controller.DeleteSeller(mockSeller.Id);
+                //check the property also got deleted from the db
+                var propertiesCountFromDb = _context.Properties.Count();
+                Assert.Equal(0, propertiesCountFromDb);
+            }
+        }
+
+        [Fact]
         public void TestGetById()
         {
-            var services = GetSellerServiceProivder();
+            var services = GetSellerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -210,7 +247,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void Test404ResponseGetSellerById()
         {
-            var services = GetSellerServiceProivder();
+            var services = GetSellerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -228,7 +265,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void Test404ResponseUpdateSeller()
         {
-            var services = GetSellerServiceProivder();
+            var services = GetSellerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -256,7 +293,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void Test404ResponseDeleteSeller()
         {
-            var services = GetSellerServiceProivder();
+            var services = GetSellerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
