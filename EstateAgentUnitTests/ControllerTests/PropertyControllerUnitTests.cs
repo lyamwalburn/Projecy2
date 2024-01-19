@@ -240,6 +240,111 @@ namespace EstateAgentUnitTests.ControllerTests
         }
 
         [Fact]
+        public void TestDeletePropertyRemovesBookings()
+        {
+            var services = GetPropertyServiceProvider();
+            using (var scope = services.CreateScope())
+            {
+                Setup(scope);
+                //empty db
+                _context.Database.EnsureDeleted();
+                //add mock property to db with status="FOR SALE"
+                var mockProperty = GetMockProperty();
+                mockProperty.Status = "FOR SALE";
+                _controller.AddProperty(mockProperty);
+                //add mock booking to db with propertyId=1
+                Booking mockBooking = new Booking
+                {
+                    Id = 1,
+                    BuyerId = 1,
+                    PropertyId = 1,
+                    Time = new DateTime(2000, 01, 30)
+                };
+                _context.Bookings.Add(mockBooking);
+                //sell property
+                _controller.SellProperty(mockProperty);
+                //check the booking also got deleted from the db
+                var bookingsCountFromDb = _context.Bookings.Count();
+                Assert.Equal(0, bookingsCountFromDb);
+            }
+        }
+
+        [Fact]
+        public void TestWithdrawPropertyStatusChange()
+        {
+            var services = GetPropertyServiceProvider();
+            using (var scope = services.CreateScope())
+            {
+                Setup(scope);
+                //empty db
+                _context.Database.EnsureDeleted();
+                //add mock property to db with status="FOR SALE"
+                var mock = GetMockProperty();
+                mock.Status = "FOR SALE";
+                _controller.AddProperty(mock);
+                //withdraw property
+                _controller.WithdrawProperty(mock.Id);
+                //check it updated in the db
+                var propertyFromDb = _service.FindById(1);
+                Assert.Equal("WITHDRAWN", propertyFromDb.Status);
+            }
+        }
+
+        [Fact]
+        public void TestWithdrawPropertyRemovesBookings()
+        {
+            var services = GetPropertyServiceProvider();
+            using (var scope = services.CreateScope())
+            {
+                Setup(scope);
+                //empty db
+                _context.Database.EnsureDeleted();
+                //add mock property to db with status="FOR SALE"
+                var mockProperty = GetMockProperty();
+                mockProperty.Status = "FOR SALE";
+                _controller.AddProperty(mockProperty);
+                //add mock booking to db with propertyId=1
+                Booking mockBooking = new Booking
+                {
+                    Id = 1,
+                    BuyerId = 1,
+                    PropertyId = 1,
+                    Time = new DateTime(2000, 01, 30)
+                };
+                _context.Bookings.Add(mockBooking);
+                //withdraw property
+                _controller.WithdrawProperty(mockProperty.Id);
+                //check the booking got deleted from the db
+                var bookingsCountFromDb = _context.Bookings.Count();
+                Assert.Equal(0, bookingsCountFromDb);
+            }
+        }
+
+        [Fact]
+        public void TestRelistWithdrawnProperty()
+        {
+            var services = GetPropertyServiceProvider();
+            using (var scope = services.CreateScope())
+            {
+                Setup(scope);
+                //empty db
+                _context.Database.EnsureDeleted();
+                //add mock property to db with status="WITHDRAWN"
+                var mock = GetMockProperty();
+                mock.Status = "WITHDRAWN";
+                _controller.AddProperty(mock);
+                //relist property
+                _controller.RelistProperty(mock.Id);
+                //check it updated in the db
+                var propertyFromDb = _service.FindById(1);
+                Assert.Equal("FOR SALE", propertyFromDb.Status);
+            }
+        }
+
+
+        // INVALID INPUT TESTS
+
+        [Fact]
         public void Test404ResponseGetPropertyById()
         {
             var services = GetPropertyServiceProvider();

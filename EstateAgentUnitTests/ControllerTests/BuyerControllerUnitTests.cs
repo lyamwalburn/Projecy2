@@ -40,7 +40,7 @@ namespace EstateAgentUnitTests.ControllerTests
 
         }
 
-        private IServiceProvider GetBuyerServiceProivder()
+        private IServiceProvider GetBuyerServiceProvider()
         {
             ServiceCollection services = new ServiceCollection();
 
@@ -70,7 +70,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void TestAddBuyer()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetBuyerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -99,7 +99,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void TestGetBuyer()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetBuyerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -122,7 +122,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void TestUpdateBuyer()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetBuyerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -156,7 +156,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void TestDeleteBuyer()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetBuyerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -175,9 +175,39 @@ namespace EstateAgentUnitTests.ControllerTests
         }
 
         [Fact]
+        public void TestDeleteRemovesBookings()
+        {
+            var services = GetBuyerServiceProvider();
+            using (var scope = services.CreateScope())
+            {
+                Setup(scope);
+                //empty db
+                _context.Database.EnsureDeleted();
+                //add mock buyer to db with buyerId=1
+                var mockBuyer = GetMockBuyer();
+                mockBuyer.Id = 1;
+                _controller.AddBuyer(mockBuyer);
+                //add mock booking to db with buyerId=1
+                Booking mockBooking = new Booking
+                {
+                    Id = 1,
+                    BuyerId = 1,
+                    PropertyId = 1,
+                    Time = new DateTime(2000, 01, 30)
+                };
+                _context.Bookings.Add(mockBooking);
+                //delete buyer
+                _controller.DeleteBuyer(mockBuyer.Id);
+                //check the booking also got deleted from the db
+                var bookingsCountFromDb = _context.Bookings.Count();
+                Assert.Equal(0, bookingsCountFromDb);
+            }
+        }
+
+        [Fact]
         public void TestGetById()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetBuyerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -210,7 +240,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void Test404ResponseGetBuyerById()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetBuyerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -229,7 +259,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void Test404ResponseUpdateBuyer()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetBuyerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
@@ -257,7 +287,7 @@ namespace EstateAgentUnitTests.ControllerTests
         [Fact]
         public void Test404ResponseDeleteBuyer()
         {
-            var services = GetBuyerServiceProivder();
+            var services = GetBuyerServiceProvider();
             using (var scope = services.CreateScope())
             {
                 Setup(scope);
