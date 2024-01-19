@@ -112,6 +112,7 @@ namespace EstateAgentAPI.Business.Services
             if (p == null) return null;
 
             p.Status = "WITHDRAWN";
+            p.BuyerId = null;
 
             Property prop = _propertiesRepository.Update(p);
             PropertyDTO dtoProperty = _mapper.Map<PropertyDTO>(prop);
@@ -135,6 +136,7 @@ namespace EstateAgentAPI.Business.Services
             if (p == null) return null;
 
             p.Status = "FOR SALE";
+            p.BuyerId = null;
 
             Property prop = _propertiesRepository.Update(p);
             PropertyDTO dtoProperty = _mapper.Map<PropertyDTO>(prop);
