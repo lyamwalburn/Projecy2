@@ -8,3 +8,7 @@ https://trello.com/invite/b/uoIVDMGR/ATTIfa0a46fc91b12c54cf4282a401f77dcb6B1DF3A
 
 ### Stand-up minutes:
 https://docs.google.com/document/d/1mPx_p7_LmzX5KopirtZgy7Ye-NXu9AkM8Kd5LAWXwzI/edit?usp=sharing
+
+### Seeding DB
+
+run the sql script "dbseeding" to populate the local db for testing. Username - "George" password "stuartlittle" by default for protected routes
